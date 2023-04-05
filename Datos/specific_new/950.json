@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Autos/2016/12/13/835382/Un-Ferrari-con-estilo-japones.html",
+    "title": "Un Ferrari con estilo japonés",
+    "subhead": "El J50 fue hecho por la marca italiana especialmente para celebrar los 50 años del fabricante en Japón. Es una edición limitada con bloque V8 twin-turbo de 3,9 litros. \n",
+    "date": "13 de Diciembre de 2016",
+    "time": "17:51",
+    "agency": "Emol",
+    "text": "Inspirado en el Ferrari 488 Spider, la casa del cavallino rampante acaba de presentar a su nuevo integrante, el J50.  Este deportivo ha sido creado para festejar los 50 años de la firma en Japón, por lo que es una edición limitada del que sólo existirán diez unidades.  El Ferrari J50 es impulsado por un motor V8 twin-turbo de 3,9 litros capaz de producir 680 cv. Alcanzaría una velocidad máxima de 325 km/h. Con respecto a su diseño, posee una carrocería inspirada en los modelos de los años 70 y 80, pero con toques futuristas.  Además, resalta su parabrisas en forma de visera, unas pronunciadas entradas de aire, que hacen recordar al Ferrari GTO, F40 y el F50. La firma italiana aún no revela detalles de prestaciones y de precio.",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FAutos%2F2016%2F12%2F13%2F835382%2FUn-Ferrari-con-estilo-japones.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2423192,
+            "avatar": "https://imgcomentarista.emol.cl/images/3/188203_1539213877673.jpg",
+            "creator": "Sergio Soto",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 188203,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;.",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481771153000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Autos",
+            "anchor": "C",
+            "pageCmsId": 835382
+        }
+    ]
+}

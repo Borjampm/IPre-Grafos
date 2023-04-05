@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Deportes/2016/12/01/833758/Programacion-de-la-penultima-fecha-del-torneo-de-la-Primera-B.html",
+    "title": "Resultados de la penúltima fecha de la Primera B",
+    "subhead": "Se siguió disputando el campeonato del ascenso. Santiago Morning quedó libre.",
+    "date": "05 de Diciembre de 2016",
+    "time": "07:45",
+    "agency": "Emol",
+    "text": "",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FDeportes%2F2016%2F12%2F01%2F833758%2FProgramacion-de-la-penultima-fecha-del-torneo-de-la-Primera-B.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2363328,
+            "avatar": "https://imgcomentarista.emol.cl/images/24/127624_1538619690680.jpg",
+            "creator": "Santiago Muñoz",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 127624,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Es raro. Sanfelipe perdió 1-0 pero anotó el empate...",
+            "likes": 3,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1480803621000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Deportes",
+            "anchor": "C",
+            "pageCmsId": 833758
+        }
+    ]
+}

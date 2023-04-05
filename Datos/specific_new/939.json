@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Tecnologia/2016/12/13/835363/Un-nuevo-tratamiento-alternativo-para-el-cancer-de-pulmon-supera-a-la-quimioterapia.html",
+    "title": "Un nuevo tratamiento alternativo para el cáncer de pulmón supera a la quimioterapia",
+    "subhead": "La utilización de un fármaco para potenciar el sistema inmune de los pacientes demostró mayores niveles de supervivencia y menos complicaciones secundarias que el método tradicional contra esta patología.\n",
+    "date": "13 de Diciembre de 2016",
+    "time": "16:47",
+    "agency": "EFE",
+    "text": "LONDRES.- Un tratamiento de inmunoterapia mejora la supervivencia respecto a la quimioterapia en pacientes con cáncer de pulmón de células no pequeñas -el más común- y presenta menos efectos secundarios, según los resultados de un amplio ensayo clínico publicado este martes en la revista The Lancet. Las primeras conclusiones de ese estudio, que analiza la evolución de 1.225 pacientes con cáncer de pulmón no microcítico en estado avanzado, sin otras opciones de tratamiento, indican que la inmunoterapia aumentó la supervivencia una media de cuatro meses. Una parte esos pacientes recibieron Atezolizumab, un inhibidor de la proteína PD-L1, que contribuye a ocultar las células cancerosas del sistema inmune, mientras que los pacientes restantes se sometieron a quimioterapia. Las personas que probaron el nuevo tratamiento sobrevivieron una media de 13,8 meses, comparada con los 9,6 meses de las del segundo grupo. Este es el primer estudio con Atezolizumab para tratar cáncer de pulmón en fase III, la última etapa antes de recibir aprobación para su uso comercial por parte de las autoridades sanitarias. \"El cáncer de pulmón es el más común en el mundo y afecta a 1,8 millones de personas cada año. También es la primera causa de muerte por cáncer\", afirmó Achim Rittmeyer, investigador de la Universidad de Gotinga, en Alemania. El método puesto a prueba \"vigoriza el sistema inmune de los pacientes contra el cáncer y, según muestra este ensayo, tiene unos efectos significativos sobre la supervivencia\", agregó el principal responsable de la investigación. Aquellos con aquellos pacientes con mayores niveles de la proteína LP-L1 doblaron su esperanza de supervivencia respecto a la quimioterapia (20,5 meses, frente a 8,9 meses); si bien aquellos con menos proteínas de ese tipo también se vieron favorecidos, sólo registraron una supervivencia media de 12,6 meses, comparado con 8,9 meses con la quimioterapia. Otras terapias diseñadas para activar el sistema inmune contra el cáncer de pulmón, como los tratamientos con Nivolumab y Pembrolizumab, apuntan a la proteína PD-1, que está localizada en la superficie de las células inmunitarias y recibe las señales de la LP-L1 para atacar a células cancerosas, pero no han mostrado tan buenos resultado como la nueva metodología empleada. Este nuevo tratamiento abre las puertas a una posible eliminación de la quimioterapia en el futuro, frente a cuidados alternativos que ofrezcan mejores opciones y signifiquen menos problemas colaterales al paciente.",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FTecnologia%2F2016%2F12%2F13%2F835363%2FUn-nuevo-tratamiento-alternativo-para-el-cancer-de-pulmon-supera-a-la-quimioterapia.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2414286,
+            "avatar": "https://graph.facebook.com/103052496800763/picture",
+            "creator": "Fernando Cualquiera",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 153575,
+            "banned": true,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Excelente!!!!",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481651334000,
+            "status": "PENDING",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Tecnologia",
+            "anchor": "C",
+            "pageCmsId": 835363
+        }
+    ]
+}

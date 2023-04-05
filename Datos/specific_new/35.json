@@ -1,0 +1,43 @@
+{
+    "url": "https://www.emol.com/noticias/Deportes/2016/12/29/837662/Neymar-sigue-explotando-su-lado-solidario-y-es-la-gran-estrella-en-homenaje-al-Chapecoense.html",
+    "title": "Neymar sigue explotando su lado solidario y es la gran estrella en homenaje al Chapecoense",
+    "subhead": "El encuentro se realizó en el estadio Maracaná. Gran parte de la recaudación irá en ayuda de los familiares de las víctimas del club brasileño.",
+    "date": "29 de Diciembre de 2016",
+    "time": "09:03",
+    "agency": "EFE",
+    "text": "RÍO DE JANEIRO.- Los jugadores del Barcelona Neymar y Rafinha, el campeón del mundo con España Joan Capdevila y el ex futbolista brasileño Zico, entre otros, homenajearon al Chapecoense en el 13º Partido de las Estrellas disputado en el Estadio de Maracaná en Río de Janeiro. El encuentro, organizado por Zico, y siempre de carácter benéfico, ha dirigido la mayor parte de la recaudación a los familiares de los fallecidos en el vuelo siniestrado que transportaba al Chapecoense para disputar la ida de la final de la Copa Sudamericana ante el Atlético Nacional colombiano. En un ambiente festivo, las gradas del Maracaná comenzaron a recibir aficionados desde dos horas antes del inicio del encuentro, hasta sumar casi 60.000 asientos ocupados de los 78.800 disponibles. Una pancarta de honra a la plantilla fallecida, el escudo del club en todas las camisetas y la suelta de globos verdes y blancos en honor a la equipación del equipo de Chapecó precedieron el pitido inicial. El partido, sin ninguna tensión, fue un espectáculo en el que Zico y Neymar -uno y dos goles anotados, respectivamente-, ambos en el mismo equipo, se lucieron para delirio de un público volcado especialmente con ambas estrellas, del pasado y el presente. Filigranas y goles aparte, la afición congregada en el mítico estadio cantaba y aplaudía constantemente en recuerdo al Chapecoense con el ya reconocido \"Força Chape\". En los últimos compases del partido, Zico fue sustituido por su nieto, de ocho años, que puso el 8-4 definitivo en el marcador a favor del conjunto de su abuelo, en el que también estaba Capdevila, los jugadores del Barça, 'El Loco' Abreu y Savio. Rafinha, que mañana vuelve a los entrenamientos con el Barcelona, calificó de \"increíble\" y \"un orgullo\" haber participado en el homenaje en un estadio tan \"especial\" y aseguró \"siempre tener en la cabeza y en el corazón\" a los jugadores del Chapecoense.",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FDeportes%2F2016%2F12%2F29%2F837662%2FNeymar-sigue-explotando-su-lado-solidario-y-es-la-gran-estrella-en-homenaje-al-Chapecoense.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2503768,
+            "avatar": "https://graph.facebook.com/10206807881297377/picture",
+            "creator": "Daniel Rodriguez",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 11993,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Analisis del Chapecoense en este video-homenaje donde tambien se explica como jugaba su arquero (un estilo muy particular) y que lo llevo a ser elegido el mejor jugador del torneo brasilero Youtube link ",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1483002867000,
+            "status": "PENDING",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Deportes",
+            "anchor": "C",
+            "pageCmsId": 837662,
+            "embeds": [
+                {
+                    "title": "Youtube",
+                    "url": "https://youtu.be/wAd5oPV3HVU",
+                    "app": "youtube",
+                    "embed": "<div class=\"contenedor_video_iframe\"><iframe class=\"video_emoltv_iframe\" src=\"https://www.youtube.com/embed/wAd5oPV3HVU\" frameborder=\"0\" allowfullscreen></iframe></div>"
+                }
+            ]
+        }
+    ]
+}

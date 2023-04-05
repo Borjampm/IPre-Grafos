@@ -1,0 +1,36 @@
+{
+    "url": "https://www.emol.com/noticias/Economia/2016/12/14/835499/EEUU-Produccion-industrial-cae-mas-de-lo-esperado-en-noviembre.html",
+    "title": "Producción industrial de Estados Unidos cae más de lo esperado en noviembre",
+    "subhead": "El resultado del penúltimo mes del año también fue peor al registrado en octubre, según informó la Reserva Federal este miércoles.",
+    "date": "14 de Diciembre de 2016",
+    "time": "12:20",
+    "agency": "Emol",
+    "text": "WASHINGTON.- La producción industrial de Estados Unidos registró una caída de 0,4% en noviembre después del alza de 0,1% del mes previo, según informó la Reserva Federal de ese país. La cifra estuvo peor a la caída de 0,2% que esperaba el mercado. En noviembre, la producción manufacturera descendió un 0,1%, y la minería registró una ganancia de 1,1%. El índice de servicios públicos cayó un 4,4%, ya que las temperaturas más cálidas de lo normal redujeron la demanda de calefacción. De esta manera, la capacidad de utilización para el sector industrial bajó 0,4 puntos porcentuales en noviembre al 75,0%, una tasa que es 5,0 puntos porcentuales por debajo de su promedio de largo plazo (1972-2015).",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FEconomia%2F2016%2F12%2F14%2F835499%2FEEUU-Produccion-industrial-cae-mas-de-lo-esperado-en-noviembre.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2418431,
+            "avatar": "https://imgcomentarista.emol.cl/images/92/53692_1531345266236.jpg",
+            "creator": "Osvaldo Lastra",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 53692,
+            "banned": false,
+            "authSource": "pram",
+            "validated": true,
+            "location": "La Reina",
+            "text": "&nbsp;Me parece que el periodista que tiene a cargo publicar esta noticia debería complementarla mejor con una explicación de los conceptos, ya que si solo transcribe lo que envían las agencias internacionales deja a la mayoria de las personas sin entender con claridad el mensaje que se quiere transmitir.",
+            "likes": 2,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481720279000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Economia",
+            "anchor": "C",
+            "pageCmsId": 835499
+        }
+    ]
+}

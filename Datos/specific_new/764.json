@@ -1,0 +1,66 @@
+{
+    "url": "https://www.emol.com/noticias/Economia/2016/12/02/833917/Precios-internacionales-del-petroleo-anotan-su-mayor-alza-semanal-en-cinco-anos.html",
+    "title": "Precios internacionales del petróleo anotan su mayor alza semanal en cinco años",
+    "subhead": "Tras el acuerdo entre los países de la OPEP, el crudo subió con fuerza durante las últimas tres jornadas, superando los US$50 por barril.",
+    "date": "02 de Diciembre de 2016",
+    "time": "18:08",
+    "agency": "Reuters",
+    "text": "NUEVA YORK.- Los precios del petróleo anotaron su mayor subida semanal en al menos un quinquenio, manteniéndose el viernes sobre los 51 dólares por barril, tras la decisión de la OPEP de reducir su oferta para controlar el exceso de suministro que ha castigado las cotizaciones durante más de dos años. La atención del mercado ahora está puesta en la implementación y el impacto del primer acuerdo -anunciado el miércoles- para un recorte de crudo en la Organización de Países Exportadores de Petróleo (OPEP) desde 2008, al que podrían unirse Rusia y otros productores ajenos al cartel. Sin embargo, el precio del barril recibió presión de datos publicados el viernes que mostraron que la producción petrolera de Rusia fue de 11,21 millones de barriles por día (bpd) en noviembre, un máximo en la época post soviética. Como los recortes de la OPEP se implementarán recién el año próximo, analistas dijeron que es posible que siga el exceso de oferta que ha arrastrado los precios a la mitad desde 2014. \"Si bien el acuerdo de la OPEP es muy significativo y podría ocasionar un descenso moderado de los inventarios el próximo año, es probable que tome más de un año que las existencias de crudo lleguen a niveles más normales\", dijeron analistas de Societe Generale. El petróleo Brent cerró la sesión con un alza de US$52 centavos, o un 0,96%, a 54,46 dólares por barril. El contrato ganó más de un 15% en la semana, su mayor alza desde comienzos de 2009. El crudo estadounidense subió 62 centavos, o un 1,21% a 51,68 dólares por barril, con un alza semanal de un 12%, la mayor desde comienzos de 2011. El petróleo fue apoyado además por la debilidad del dólar, que cayó frente a una cesta de monedas de referencia.",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FEconomia%2F2016%2F12%2F02%2F833917%2FPrecios-internacionales-del-petroleo-anotan-su-mayor-alza-semanal-en-cinco-anos.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2362053,
+            "avatar": "https://graph.facebook.com/163844220756894/picture",
+            "creator": "Ayuda Organisacion",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 216412,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;OFERTA DE PRESTAMO PARA TODOS.  ",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1480782069000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Economia",
+            "anchor": "C",
+            "pageCmsId": 833917,
+            "embeds": [
+                {
+                    "title": "Foto subida por lector",
+                    "url": "http://ugc.ecn.cl/upload/files/2016/12/03/AIDE%20%2831%29.jpg",
+                    "app": "emolUgc",
+                    "embed": "<div class=\"emolUgcImage\"><a href=\"http://ugc.ecn.cl/upload/files/2016/12/03/AIDE%20%2831%29.jpg\" target=\"_blank\" rel=\"shadowbox\"><img src=\"http://ugc.ecn.cl/upload/files/2016/12/03/thumbnail/AIDE%20%2831%29.jpg\" data=\"http://ugc.ecn.cl/upload/files/2016/12/03/AIDE%20%2831%29.jpg\"></a></div>"
+                }
+            ]
+        },
+        {
+            "id": 2361041,
+            "avatar": "https://imgcomentarista.emol.cl/images/31/201131_1534627560290.jpg",
+            "creator": "Patricio Flores",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 201131,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Osea aca va a subir una barabaridad, despues de dos piñuflas bajas...",
+            "likes": 2,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1480767428000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Economia",
+            "anchor": "C",
+            "pageCmsId": 833917
+        }
+    ]
+}

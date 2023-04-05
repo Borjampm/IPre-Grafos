@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Tecnologia/2016/12/09/834825/Un-grupo-de-hackers-en-Turquia-ha-construido-un-juego-para-hacer-mas-ataques.html",
+    "title": "Un grupo de hackers en Turquía ha construido un juego para hacer más ataques",
+    "subhead": "Los participantes reciben puntos por cada \"trabajo\" que completan, lo que les permite acceso a más y mejores herramientas para sus futuros objetivos. \n",
+    "date": "09 de Diciembre de 2016",
+    "time": "12:42",
+    "agency": "Emol",
+    "text": "ANKARA.- Un grupo de hackers en Turquía está en medio de una nueva tendencia en el mundo de los ataques cibernéticos. A través de una plataforma dentro de la red de \"internet profunda\", el equipo ha confeccionado un juego que recompensa a otros hackers si completan \"misiones\" que consisten en bajar ciertos sitios en contra del gobierno turco.  El sitio, descubierto por la firma de seguridad digital Forcepoint, es llamado \"Plataforma de Defensa\" y le entrega a los hackers una herramienta denominada \"Sledgehammer\" para realizar los ataques. Además, este juego le otorga un punto a cada entidad que logre mantener por 10 minutos el ataque a diversos sitios.  Gran parte de estos ataques se realizan a través de DDoS (por las siglas en inglés de Distributed Denial of Service), que consiste en enviar una mayor cantidad de solicitudes de las que pueden soportar los sitios web. Algo similar a lo ocurrido hace unos meses en Estados Unidos que afectó el rendimiento de populares redes sociales.  Entre los objetivos de este sitio, según detalla la BBC, se encuentran grupos kurdos, medios de comunicación contrarios al gobierno turco, partidos políticos de oposición. En esta lista también se encuentra el partido Demócrata Cristiano de Alemania, agrupación a la que pertenece la Canciller Angela Merkel, y un festival de cine en israelí.  Según la empresa Forcepoint, la tabla de puntajes -que es pública en el sitio- muestra que el actual líder cuenta con 450 puntos. Dentro del \"juego\", los hackers pueden utilizar sus recompensas para obtener más y mejores herramientas para sus futuros ataques. \"Esta es la primera vez que algún hacker ha hecho un juego a partir de estas plataformas para incitar a los participantes a competir unos contra otros\", comentó Carl Leonard, analista de seguridad en Forcepoint. Además, Forcepoint señaló en un comunicado que la solicitud del uso del software \"Sledgehammer\" en este juego tendría otra intención. Al parecer, el programa cuenta con una facultad para su creador de espiar a los hackers mientras realizan el ataque a los sitios en la lista.",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FTecnologia%2F2016%2F12%2F09%2F834825%2FUn-grupo-de-hackers-en-Turquia-ha-construido-un-juego-para-hacer-mas-ataques.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2396464,
+            "avatar": "https://imgcomentarista.emol.cl/images/64/112164_1539087332870.jpg",
+            "creator": "León Vásquez Rojas",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 112164,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Que raro un juego para hackear",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481365193000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Tecnologia",
+            "anchor": "C",
+            "pageCmsId": 834825
+        }
+    ]
+}

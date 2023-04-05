@@ -1,0 +1,36 @@
+{
+    "url": "https://www.emol.com/noticias/Tecnologia/2016/12/06/834388/Netflix-incluye-nueva-funcion-con-previsualizaciones-del-contenido-para-ayudar-a-decidir.html",
+    "title": "Netflix incluye nueva función con previsualizaciones del contenido para ayudar a decidir",
+    "subhead": "El servicio contará desde hoy con pequeños videos especialmente diseñados para optimizar la búsqueda y selección de contenido en la plataforma.\n",
+    "date": "06 de Diciembre de 2016",
+    "time": "13:36",
+    "agency": "Emol",
+    "text": "SANTIAGO.- Desde este martes, Netflix suma una nueva herramienta en su navegación para facilitar la selección de títulos a los usuarios a través de pequeños videos que muestran escenas seleccionadas sobre una película o serie. Con esto, el servicio de entretenimiento espera mejorar su aplicación respecto a las necesidades de las personas.  Estas nuevas previsualizaciones se tratan de imágenes que \"no son avances ni tráileres tradicionales. Son sinopsis en video especialmente diseñadas, que ayudan a los miembros a tomar decisiones más rápido y con más seguridad al destacar brevemente la historia, los personajes y el tono de un título\", destaca Netflix. La nueva función que se despliega globalmente este martes, terminará de actualizarse durante las próximas semanas y estará disponible en todos los dispositivos que sean compatibles con Netflix, como las consolas de videojuegos, los televisores inteligentes y su versión web.  Si bien ahora Netflix cuenta con una pequeña reseña escrita al costado de cada título, además de la calificación de un máximo de cinco estrellas, otorgada por los mismos usuarios, desde ahora los espectadores también podrán disfrutar de estas pequeñas recopilaciones de escenas para tomar una idea sobre el desarrollo del título. Netflix destaca que esta nueva función terminará de llegar a todos los clientes en los próximos meses.  Con esto, la compañía busca optimizar el tiempo de los usuarios al momento de escoger una nueva película o serie, ya que sus estudios han demostrado que algunas personas toman mucho tiempo en la selección de contenido.",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FTecnologia%2F2016%2F12%2F06%2F834388%2FNetflix-incluye-nueva-funcion-con-previsualizaciones-del-contenido-para-ayudar-a-decidir.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2380220,
+            "avatar": "https://imgcomentarista.emol.cl/images/51/92251_1540397810571.jpg",
+            "creator": "Tony Sfeir",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 92251,
+            "banned": true,
+            "authSource": "facebook",
+            "validated": false,
+            "location": "Las Condes",
+            "text": "&nbsp;Deben poner mas variefad de películas y de mejor calidad,son maltas por lo general",
+            "likes": 1,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481094710000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Tecnologia",
+            "anchor": "C",
+            "pageCmsId": 834388
+        }
+    ]
+}

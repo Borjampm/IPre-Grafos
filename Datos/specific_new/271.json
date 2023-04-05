@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Nacional/2016/12/24/837025/Tres-incendios-activos-mantienen-con-alerta-roja-a-la-comuna-de-San-Antonio.html",
+    "title": "Tres incendios activos mantienen con alerta roja a la provincia de San Antonio",
+    "subhead": "En tanto, la Intendencia decretó la alerta amarilla para María Pinto por un incendio forestal que ha consumido 120 hectáreas y es amenaza directa para las viviendas cercanas.",
+    "date": "24 de Diciembre de 2016",
+    "time": "11:29",
+    "agency": "Emol",
+    "text": "SANTIAGO.- La Oficina Nacional de Emergencia mantienen el monitoreo de la alerta roja declarada el pasado 21 de diciembre para la provincia de San Antonio debido a que tres incendios se mantienen activos. El primero es forestal en el denominado \"Fundo Colenguado\" en que se han sido afectadas 750 hectáreas de pastizal, matorral y eucaliptu en la comuna de Cartagena. Debido a esto un total de 50 personas debieron ser evacuadas. También activo se mantiene el incendio en el sector \"El Bochinche\" donde han sido consumidas 254 hectáreas forestales en Algarrobo. En el mismo estado con 805 hectáreas incendiadas está el sector de \"Aguas Buenas\" en San Antonio. La Onemi mantiene también alerta roja para las comunas de Casablanca y Quintero. Mientras que hoy se decretó alerta amarilla para María Pinto en la Región Metropolitana por un incendio que ya ha consumido 120 hectáreas de vegetación y que es amenaza directa a centros poblados en el sector denominado \"Las Mercedes\".",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FNacional%2F2016%2F12%2F24%2F837025%2FTres-incendios-activos-mantienen-con-alerta-roja-a-la-comuna-de-San-Antonio.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2480101,
+            "avatar": "https://graph.facebook.com/130465837432734/picture",
+            "creator": "George Beck",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 208621,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Parece un concurso ..Y el ganador de hoy esss: Aguas Buenas, con 805 hectáreas quemadas!! felicitaciones al fundó ganadorrr .. Triste pero cierto, atestiguamos los efectos del andar como los conejos..",
+            "likes": 1,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1482591171000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Nacional",
+            "anchor": "C",
+            "pageCmsId": 837025
+        }
+    ]
+}

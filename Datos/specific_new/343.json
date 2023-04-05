@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Nacional/2016/12/08/834721/Sismo-de-mediana-intensidad-afecta-a-las-regiones-de-Coquimbo-y-Valparaiso.html",
+    "title": "Sismo de 5,5 Richter afecta a las regiones de Coquimbo y Valparaíso",
+    "subhead": "El movimiento telúrico se percibió a las 17:43 horas en la zona centro-norte del país.",
+    "date": "08 de Diciembre de 2016",
+    "time": "17:56",
+    "agency": "Emol",
+    "text": "SANTIAGO.- Un sismo de mediana intensidad se percibió la tarde de este jueves entre las regiones de Coquimbo y Valparaíso, según señala el Centro Sismológico Nacional y la Oficina Nacional de Emergencias (Onemi).  El movimiento telúrico, que se localizó a 47 kilómetros al Oeste de Canela Baja, tuvo una magnitud de 5,5.  Preliminarmente, la Onemi informó que no se reportaron daños a personas o alteración de servicios básicos producto del movimiento.  Paralelamente, el Servicio Hidrográfico y Oceanográfico de la Armada (SHOA) explicó que las características del sismo no reunieron las condiciones necesarias para generar un tsunami en las costas chilenas.",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FNacional%2F2016%2F12%2F08%2F834721%2FSismo-de-mediana-intensidad-afecta-a-las-regiones-de-Coquimbo-y-Valparaiso.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2390157,
+            "avatar": "https://graph.facebook.com/1142037116/picture",
+            "creator": "Rafael Figueroa",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 50368,
+            "banned": true,
+            "authSource": "pram",
+            "validated": false,
+            "text": "&nbsp;Hooo",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481271883000,
+            "status": "PENDING",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Nacional",
+            "anchor": "C",
+            "pageCmsId": 834721
+        }
+    ]
+}

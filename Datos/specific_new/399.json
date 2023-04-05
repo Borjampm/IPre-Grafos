@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Espectaculos/2016/12/07/834518/Panoramas-Revisa-los-estrenos-que-llegan-a-los-cines-esta-semana.html",
+    "title": "Panoramas: Revisa los estrenos que llegan a los cines esta semana",
+    "subhead": "Este jueves refrescan la cartelera la cinta de terror \"Presencia siniestra\", el filme nacional \"7 semana\", la comedia \"Fiesta de Navidad en la oficina\", el drama \"La luz entre los océanos\" y el documental \"Oasis: Supersonic\".",
+    "date": "08 de Diciembre de 2016",
+    "time": "08:21",
+    "agency": "Emol",
+    "text": "      \"Presencia siniestra\" Ver más detalles         \"7 Semanas\" Ver más detalles         \"La luz entre los océanos\" Ver más detalles         \"Oasis: Supersonic\" Ver más detalles         \"Fiesta de Navidad en la oficina\" Ver más detalles      ",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FEspectaculos%2F2016%2F12%2F07%2F834518%2FPanoramas-Revisa-los-estrenos-que-llegan-a-los-cines-esta-semana.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2401350,
+            "avatar": "https://imgcomentarista.emol.cl/images/65/219365_1535470967222.jpg",
+            "creator": "Laura Mardones Seyler",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 219365,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Josefa Reyes",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481455678000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Espectaculos",
+            "anchor": "C",
+            "pageCmsId": 834518
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Deportes/2016/12/29/837665/Minuto-a-minuto-de-la-presentacion-de-Angel-Hoyos-como-nuevo-tecnico-de-la-U.html",
+    "title": "Repase toda la presentación de Ángel Hoyos como nuevo entrenador de la U",
+    "subhead": "El entrenador argentino se presentó por primera vez en la sala de prensa del Centro Deportivo Azul.",
+    "date": "29 de Diciembre de 2016",
+    "time": "11:07",
+    "agency": "Emol",
+    "text": "",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FDeportes%2F2016%2F12%2F29%2F837665%2FMinuto-a-minuto-de-la-presentacion-de-Angel-Hoyos-como-nuevo-tecnico-de-la-U.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2504370,
+            "avatar": "https://imgcomentarista.emol.cl/images/11/5611_1535065576004.jpg",
+            "creator": "Fernando Browne",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 5611,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;B",
+            "likes": 1,
+            "dislikes": 1,
+            "denounces": 1,
+            "time": 1483008066000,
+            "status": "DENOUNCED",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Deportes",
+            "anchor": "C",
+            "pageCmsId": 837665
+        }
+    ]
+}

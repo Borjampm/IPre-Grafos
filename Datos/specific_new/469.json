@@ -1,0 +1,35 @@
+{
+    "url": "https://www.emol.com/noticias/Deportes/2016/12/12/835037/Minuto-a-minuto-del-sorteo-de-los-octavos-de-final-de-la-Champions-Chilenos-conocen-a-sus-rivales.html",
+    "title": "Revive el minuto a minuto del sorteo de los 8.os de Champions: Hay choque de chilenos",
+    "subhead": "Mira cómo quedarán conformadas las parejas de los 16 mejores del torneo de clubes más importante de Europa. Hay cuatro nacionales clasificados.",
+    "date": "12 de Diciembre de 2016",
+    "time": "08:27",
+    "agency": "Emol",
+    "text": "",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FDeportes%2F2016%2F12%2F12%2F835037%2FMinuto-a-minuto-del-sorteo-de-los-octavos-de-final-de-la-Champions-Chilenos-conocen-a-sus-rivales.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2404982,
+            "avatar": "https://imgcomentarista.emol.cl/images/60/72560_1541053244241.jpg",
+            "creator": "Hank Hochfaerber",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 72560,
+            "banned": false,
+            "authSource": "facebook",
+            "validated": false,
+            "text": "&nbsp;Barcelona - Atlético Madrid - Borussia Dortmund - Leicester City - Juventus - Manchester City - Bayern Munich - Real Madrid",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1481532996000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Deportes",
+            "anchor": "C",
+            "pageCmsId": 835037
+        }
+    ]
+}

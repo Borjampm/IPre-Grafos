@@ -1,0 +1,34 @@
+{
+    "url": "https://www.emol.com/noticias/Espectaculos/2016/12/01/833651/Panoramas-Revisa-los-estrenos-que-llegan-a-los-cines-esta-semana.html",
+    "title": "Panoramas: Revisa los estrenos que llegan a los cines esta semana",
+    "subhead": "La exitosa cinta de Clint Eastwood \"Sully\", basada en un caso real, se une a la cartelera. A esta se suman el filme nacional \"Prueba de actitud\", el drama \"Shivaay: El Destructor\", \"Inframundo: Guerras de sangre\" y la producción animada \"Las aventuras de Robinson Crusoe\".",
+    "date": "01 de Diciembre de 2016",
+    "time": "09:37",
+    "agency": "Emol",
+    "text": "      \"Inframundo: Guerras de Sangre\" Ver más detalles         \"Shivaay: El Destructor\" Ver más detalles         \"Prueba de Actitud\" Ver más detalles         \"Sully\" Ver más detalles         \"Las Aventuras de Robinson Crusoe\" Ver más detalles      ",
+    "comments_url": "https://cache-comentarios.ecn.cl/Comments/Api?action=getComments&url=https%3A%2F%2Fwww.emol.com%2Fnoticias%2FEspectaculos%2F2016%2F12%2F01%2F833651%2FPanoramas-Revisa-los-estrenos-que-llegan-a-los-cines-esta-semana.html&includePending=true&format=json&limit=0&order=TIME_DESC&rootComment=true",
+    "comments": [
+        {
+            "id": 2354108,
+            "creator": "Cristian Araneda",
+            "presence": "AWAY",
+            "promotedCreator": false,
+            "creatorId": 113869,
+            "banned": false,
+            "authSource": "pram",
+            "validated": false,
+            "text": "&nbsp;No hay termino medio en el cine chileno? O son muy livianas o tan densas como la nana y Tony Manero...",
+            "likes": 0,
+            "dislikes": 0,
+            "denounces": 0,
+            "time": 1480659721000,
+            "status": "NEW",
+            "boost": 0,
+            "highlight": false,
+            "level": 0,
+            "pageSection": "Espectaculos",
+            "anchor": "C",
+            "pageCmsId": 833651
+        }
+    ]
+}
