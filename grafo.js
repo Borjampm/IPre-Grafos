@@ -94,6 +94,7 @@ function createGrafo(data){
 
     nodes = treemap(nodes);
     const svg = d3.select("body").append("svg")
+        .attr("id", "vis")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom),
       g = svg.append("g")
@@ -110,6 +111,8 @@ function createGrafo(data){
   .enter().append("path")
     .attr("class", "link")
     .style("stroke", d => COLOR(d.data.level))
+    .style("fill", "none")
+  .style("stroke-width", "2px")
     .attr("d", linkGen);
 
        const node = g.selectAll(".node")
@@ -133,4 +136,6 @@ function createGrafo(data){
   .attr("y", d => 20)
   .style("text-anchor", d => d.comments ? "end" : "start")
   .text(d => d.data.creator);
+
+  createButton("body", "comment_tree");
 }
