@@ -141,7 +141,7 @@ function createGrafo(data){
         console.log(timeMin);
         console.log(timeMax);
         console.log(time);
-        if (time > timeMin && time < timeMax){
+        if ((time > timeMin) && (time < timeMax)){
             console.log("epic")
             return 1;
         } else {
