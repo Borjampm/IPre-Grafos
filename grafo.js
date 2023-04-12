@@ -51,6 +51,7 @@ function comment_processed(c){
         creator: c.creator,
         level: c.level,
         likes: c.likes,
+        time: c.time,
         comments: []
     }
     return comment
@@ -66,11 +67,11 @@ function max_level(comments){
     return max
 }
 
+
 // -------------------------------- Crear Grafo ------------------------
 // Parametros
 const HEIGTH = 40;
 const WIDTH = 400;
-
 
 function createGrafo(data){
 
@@ -93,7 +94,7 @@ function createGrafo(data){
     let nodes = d3.hierarchy(data, d => d.comments);
 
     nodes = treemap(nodes);
-    const svg = d3.select("body").append("svg")
+    const svg = d3.select("#vis-1").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom),
       g = svg.append("g")
@@ -133,4 +134,29 @@ function createGrafo(data){
   .attr("y", d => 20)
   .style("text-anchor", d => d.comments ? "end" : "start")
   .text(d => d.data.creator);
+
+
+  // Filtro Fechas
+    function filtrar_fecha(timeMin, timeMax, time){
+        console.log(timeMin);
+        console.log(timeMax);
+        console.log(time);
+        if (time > timeMin && time < timeMax){
+            console.log("epic")
+            return 1;
+        } else {
+            return 0.5;
+        }
+    }
+
+  d3.select("#selectButton").on("click", function(d) {
+      var timeMin = document.getElementById('date_min').value;
+      timeMin = Date.parse(timeMin)
+      var timeMax = document.getElementById('date_max').value;
+      timeMax = Date.parse(timeMax)
+      console.log(timeMin);
+      console.log(timeMax);
+      node.select("circle")
+      .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
+  })
 }

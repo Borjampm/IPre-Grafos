@@ -5,10 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="d3.min.js"></script>
     <title>Index</title>
 </head>
 <body >
-    <script src='grafo.js' charset='utf-8'></script>
+    <div class = "filtro">
+            <label for="date_min"> Filtrar por fecha </label>
+            <input type="datetime-local" id="date_min"
+                name="date_min"
+                min="2016-12-12T00:00" max="2016-12-13T00:00">
+            <input type="datetime-local" id="date_max"
+                name="date_max"
+                min="2016-12-12T00:00" max="2016-12-13T00:00">
+                <button id="selectButton">Filtrar</button>
+    </div>
+
+    <div id="vis-1">
+        <script src='grafo.js' charset='utf-8'></script>
+    </div>
+
 </body>
 </html>
