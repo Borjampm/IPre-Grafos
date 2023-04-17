@@ -151,16 +151,59 @@ function createGrafo(data) {
 
     d3.select("#selectButton").on("click", function (d) {
         let timeMin = document.getElementById('date_min').value;
-        let timeMax = document.getElementById('date_max').value;
+        let timeInterval = document.getElementById('date_interval').value;
 
-        timeMin = Date.parse(timeMin)
-        timeMax = Date.parse(timeMax)
+        timeMin = Date.parse(timeMin);
+        timeInterval = timeInterval * 60 * 1000;
+        timeMax = timeMin + timeInterval;
+        console.log(timeMin);
 
         node.selectAll("circle")
-            .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
+        .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
 
         link.attr("opacity", d => {
             return filtrar_fecha(timeMin, timeMax, d.data.time)
         })
     })
+
+    // Tooltip
+    var Tooltip = d3.select("#div_template")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+    var mouseover = function(d) {
+        Tooltip
+        .style("opacity", 1)
+        d3.select(this)
+        .style("stroke", "black")
+    }
+    var mouseover = function(d) {
+        Tooltip
+        .style("opacity", 1)
+        d3.select(this)
+        .style("stroke", "black")
+    }
+    var mousemove = function(d) {
+        Tooltip
+        .html("The exact value of<br>this cell is: " + d.value)
+        .style("left", (d3.mouse(this)[0]+70) + "px")
+        .style("top", (d3.mouse(this)[1]) + "px")
+    }
+    var mouseleave = function(d) {
+        Tooltip
+        .style("opacity", 0)
+        d3.select(this)
+        .style("stroke", "black")
+    }
+
+    node.selectAll("circle")
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
 }
