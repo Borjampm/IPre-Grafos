@@ -19,3 +19,14 @@ body {
   .filtro{
     text-align: center;
   }
+
+.tooltip{
+  position: absolute;
+  background-color: white;
+  border: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 5px;
+  max-width: 350px;
+  text-align: justify;
+}

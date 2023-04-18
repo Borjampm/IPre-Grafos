@@ -51,7 +51,9 @@ function comment_processed(c) {
         creator: c.creator,
         level: c.level,
         likes: c.likes,
+        dislikes: c.dislikes,
         time: c.time,
+        text: c.text,
         comments: []
     }
     return comment
@@ -171,14 +173,6 @@ function createGrafo(data) {
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-
-
 
     node.selectAll("circle")
         .on("mouseleave", function(event, d){
@@ -191,13 +185,17 @@ function createGrafo(data) {
         Tooltip.style("opacity", 1)
         // d3.pointer(event)
         // .style("stroke", "black")
-        console.log("entre")
     })
     .on("mousemove", function(event, d){
         Tooltip
-        .html("The exact value of<br>this cell is:" + d.data.likes)
+        .html(
+        "Autor: " + d.data.creator + "<br>" +
+        "Comentario: " + d.data.text + "<br>" +
+        "Subido el: " + Date(d.data.time) + "<br>" +
+        "Cantidad de Likes: " + d.data.likes + "<br>" +
+        "Cantidad de Dislikes: " + d.data.dislikes + "<br>"
+        )
         .style("left", (event.pageX + 10) + "px")
         .style("top", (event.pageY + -10) + "px")
-        console.log(event.pageX, event.pageY)
     })
 }
