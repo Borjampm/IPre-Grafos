@@ -167,43 +167,37 @@ function createGrafo(data) {
     })
 
     // Tooltip
-    var Tooltip = d3.select("#div_template")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
-
-    var mouseover = function(d) {
-        Tooltip
-        .style("opacity", 1)
-        d3.select(this)
-        .style("stroke", "black")
-    }
-    var mouseover = function(d) {
-        Tooltip
-        .style("opacity", 1)
-        d3.select(this)
-        .style("stroke", "black")
-    }
-    var mousemove = function(d) {
-        Tooltip
-        .html("The exact value of<br>this cell is: " + d.value)
-        .style("left", (d3.mouse(this)[0]+70) + "px")
-        .style("top", (d3.mouse(this)[1]) + "px")
-    }
-    var mouseleave = function(d) {
-        Tooltip
+    var Tooltip = d3.select("#vis-1")
+        .append("div")
         .style("opacity", 0)
-        d3.select(this)
-        .style("stroke", "black")
-    }
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+
+
 
     node.selectAll("circle")
-    .on("mouseover", mouseover)
-    .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave)
+        .on("mouseleave", function(event, d){
+            Tooltip.style("opacity", 0)
+            // d3.pointer(event)
+            // .style("stroke", "black")
+            console.log("sali")
+    })
+    .on("mouseover", function(event, d){
+        Tooltip.style("opacity", 1)
+        // d3.pointer(event)
+        // .style("stroke", "black")
+        console.log("entre")
+    })
+    .on("mousemove", function(event, d){
+        Tooltip
+        .html("The exact value of<br>this cell is:" + d.data.likes)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY + -10) + "px")
+        console.log(event.pageX, event.pageY)
+    })
 }
