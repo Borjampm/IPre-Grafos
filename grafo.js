@@ -1,4 +1,4 @@
-data_path = "Datos/specific_new/333.json"
+data_path = "Datos/specific_new/20.json"
 function runCode() {
     d3.json(data_path)
         .then((data) => {
@@ -71,9 +71,9 @@ function max_level(comments) {
 
 
 // -------------------------------- Funciones Auxiliares ------------------------
-function TransformDate(date, time){
+function transform_date(date, time){
     var dateArray = date.split(' ');
-    var month = NameToNumberMonth(dateArray[2]);
+    var month = monthname_to_number(dateArray[2]);
     var aux = dateArray[4] + "-"
             + month + "-"
             + dateArray[0] + "T"
@@ -81,7 +81,7 @@ function TransformDate(date, time){
     return aux
 }
 
-function NameToNumberMonth(month){
+function monthname_to_number(month){
     var monthsNumber = {
         'Enero': '1',
         'Febrero': '2',
@@ -97,6 +97,29 @@ function NameToNumberMonth(month){
         'Diciembre': '12'
         };
     return monthsNumber[month]
+}
+
+function get_last_comment_time(comments) {
+    max = 0;
+    for (comment of comments) {
+        if (max < comment.time) {
+            max = comment.time;
+        }
+    }
+    console.log(max);
+    const max_time = new Date(max);
+    console.log(max_time);
+    var year = max_time.getFullYear()
+    var month = max_time.getMonth()
+    console.log(month)
+    var day = max_time.getDay()
+    // var year = max_time.getFullYear()
+    var aux = year + "-"
+        + month + "-"
+        + day + "T";
+        // + time;
+    console.log(aux)
+    return aux
 }
 
 // -------------------------------- Crear Grafo ------------------------
@@ -176,14 +199,12 @@ function createGrafo(data) {
         return 1;
     }
 
-    var timePublish = TransformDate(data.date, data.time);
-    console.log(timePublish);
+    const timePublish = transform_date(data.date, data.time);
+    const last_comment_time = get_last_comment_time(data.comments);
 
-    document.getElementById('date_min').min = timePublish;
-    document.getElementById('date_min').max = timePublish;
-
-    console.log(data.date + " " + data.time);
-    console.log(Date.parse(data.date + " " + data.time));
+    document.getElementById('date_min').setAttribute('min', timePublish);
+    document.getElementById('date_min').setAttribute('max', last_comment_time);
+    // document.getElementById('date_min').setAttribute('max', );
 
     d3.select("#selectButton").on("click", function (d) {
         let timeMin = document.getElementById('date_min').value;
@@ -192,7 +213,6 @@ function createGrafo(data) {
         timeMin = Date.parse(timeMin);
         timeInterval = timeInterval * 60 * 1000;
         timeMax = timeMin + timeInterval;
-        console.log(timeMin);
 
         node.selectAll("circle")
         .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
