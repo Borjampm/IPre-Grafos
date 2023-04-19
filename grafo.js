@@ -70,6 +70,35 @@ function max_level(comments) {
 }
 
 
+// -------------------------------- Funciones Auxiliares ------------------------
+function TransformDate(date, time){
+    var dateArray = date.split(' ');
+    var month = NameToNumberMonth(dateArray[2]);
+    var aux = dateArray[4] + "-"
+            + month + "-"
+            + dateArray[0] + "T"
+            + time;
+    return aux
+}
+
+function NameToNumberMonth(month){
+    var monthsNumber = {
+        'Enero': '1',
+        'Febrero': '2',
+        'Marzo': '3',
+        'Abril': '4',
+        'Mayo': '5',
+        'Junio': '6',
+        'Julio': '7',
+        'Agosto': '8',
+        'Septiembre': '9',
+        'Octubre': '10',
+        'Noviembre': '11',
+        'Diciembre': '12'
+        };
+    return monthsNumber[month]
+}
+
 // -------------------------------- Crear Grafo ------------------------
 // Parametros
 const HEIGTH = 40;
@@ -142,14 +171,19 @@ function createGrafo(data) {
 
     // Filtro Fechas
     function filtrar_fecha(timeMin, timeMax, time) {
-        // console.log("MIN", timeMin);
-        // console.log("MAX", timeMax);
-        // console.log("time", time);
-        // console.log()
         if (time < timeMin) { return 0.4 }
         if (time > timeMax) { return 0.1 }
         return 1;
     }
+
+    var timePublish = TransformDate(data.date, data.time);
+    console.log(timePublish);
+
+    document.getElementById('date_min').min = timePublish;
+    document.getElementById('date_min').max = timePublish;
+
+    console.log(data.date + " " + data.time);
+    console.log(Date.parse(data.date + " " + data.time));
 
     d3.select("#selectButton").on("click", function (d) {
         let timeMin = document.getElementById('date_min').value;
@@ -177,12 +211,13 @@ function createGrafo(data) {
     node.selectAll("circle")
         .on("mouseleave", function(event, d){
             Tooltip.style("opacity", 0)
+                .style("display", "none")
             // d3.pointer(event)
             // .style("stroke", "black")
-            console.log("sali")
     })
     .on("mouseover", function(event, d){
         Tooltip.style("opacity", 1)
+            .style("display", "block")
         // d3.pointer(event)
         // .style("stroke", "black")
     })
