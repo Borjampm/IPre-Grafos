@@ -167,8 +167,8 @@ function get_last_comment_time(comments) {
 
 // -------------------------------- Crear Grafo ------------------------
 // Parametros
-const HEIGTH = 40;
-const WIDTH = 400;
+const HEIGTH = 100;
+const WIDTH = 40;
 
 function createGrafo(data) {
 
@@ -177,9 +177,9 @@ function createGrafo(data) {
     const tree_depth = max_level(data.comments);
     const tree_height = data.comments.length;
 
-    const margin = { top: 20, right: 150, bottom: 30, left: 90 };
-    const width = WIDTH * Math.sqrt(tree_depth + 1) - margin.left - margin.right;
-    const height = (100 + HEIGTH * tree_height) - margin.top - margin.bottom;
+    const margin = { top: 20, right: 30, bottom: 30, left: 90 };
+    const width = WIDTH * tree_height - margin.left - margin.right;
+    const height = (HEIGTH * Math.sqrt(tree_depth + 1)) - margin.top - margin.bottom;
 
     // Modificar Datos
     data = data_processed(data);
@@ -191,18 +191,18 @@ function createGrafo(data) {
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
-    const treemap = d3.tree().size([height, width]);
+    const treemap = d3.tree().size([width, height]);
     nodes = treemap(nodes);
     const svg = d3.select("#vis-1").append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("height", 100+height + margin.top + margin.bottom)
 
     const g = svg.append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+        .attr("transform", `translate(${margin.top}, ${margin.left})`);
 
-    let linkGen = d3.linkHorizontal()
-        .source(d => [d.y, d.x])
-        .target(d => [d.parent.y, d.parent.x]);;
+    let linkGen = d3.linkVertical()
+        .source(d => [d.x, d.y])
+        .target(d => [d.parent.x, d.parent.y]);;
 
 
     const link = g.selectAll(".link")
@@ -216,7 +216,7 @@ function createGrafo(data) {
         .data(nodes.descendants())
         .enter().append("g")
         .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
-        .attr("transform", d => `translate(${d.y}, ${d.x})`);
+        .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
     radius = d3.scaleSqrt()
         .domain([0, 10])
