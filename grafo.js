@@ -290,11 +290,13 @@ function createGrafo(data) {
                 .html(
                     "Autor: " + d.data.creator + "<br>" +
                     "Comentario: " + d.data.text + "<br>" +
-                    "Subido el: " + Date(d.data.time) + "<br>" +
+                    "Subido el: " + new Date(d.data.time) + "<br>" +
                     "Cantidad de Likes: " + d.data.likes + "<br>" +
                     "Cantidad de Dislikes: " + d.data.dislikes + "<br>"
                 )
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY + -10) + "px")
+        console.log(d.data.time)
+        console.log(new Date(d.data.time))
         })
 }
