@@ -1,7 +1,6 @@
-function runCode() {
-    d3.json(data_path)
+function runCode(i) {
+    d3.json(`Datos/specific_new/${i}.json`)
         .then((data) => {
-            // data.comments = comments_processed(data.comments);
             createGrafo(data);
         })
         .catch((error) => console.log(error));
@@ -97,7 +96,7 @@ function transform_min_date(date, time){
 function transform_max_date(date, time){
     var dateArray = date.split(' ');
     var month = monthname_to_number(dateArray[2]);
-    var day = 3 + parseInt(dateArray[0]);
+    var day = 2 + parseInt(dateArray[0]);
     console.log(dateArray[0])
     console.log(day);
     var aux = dateArray[4] + "-"
