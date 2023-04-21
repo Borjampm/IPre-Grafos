@@ -119,7 +119,19 @@ function monthname_to_number(month){
         'Septiembre': '9',
         'Octubre': '10',
         'Noviembre': '11',
-        'Diciembre': '12'
+        'Diciembre': '12',
+        'Jan': '1',
+        'Feb': '2',
+        'Mar': '3',
+        'Apr': '4',
+        'May': '5',
+        'Jun': '6',
+        'Jul': '7',
+        'Agu': '8',
+        'Sep': '9',
+        'Oct': '10',
+        'Nov': '11',
+        'Dec': '12'
     };
     return monthsNumber[month]
 }
@@ -132,18 +144,24 @@ function get_last_comment_time(comments) {
         }
     }
     console.log(max);
-    const max_time = new Date(max);
-    console.log(max_time);
-    var year = max_time.getFullYear()
-    var month = max_time.getMonth()
-    console.log(month)
-    var day = max_time.getDay()
-    // var year = max_time.getFullYear()
-    var aux = year + "-"
+    var max_time = new Date(max);
+    max_time = max_time.toString().split(' ')
+    var month = monthname_to_number(max_time[1]);
+    var time = max_time[4].split(':');
+    var hour = time[0];
+    var min = parseInt(time[1]) + 1;
+    min = min.toString();
+    if (min.length == 1) {
+        min = "0" + min;
+    } else if (min.length == 0) {
+        min = "00";
+    }
+    console.log(max_time)
+    var aux = max_time[3] + "-"
         + month + "-"
-        + day + "T";
-    // + time;
-    console.log(aux)
+        + max_time[2] + "T"
+        + hour + ":"
+        + min;
     return aux
 }
 
@@ -225,12 +243,12 @@ function createGrafo(data) {
     }
 
     const timePublish = transform_min_date(data.date, data.time);
-    const last_comment_time = transform_max_date(data.date, data.time);
-    // const last_comment_time = get_last_comment_time(data.comments);
+    const last_comment_time = get_last_comment_time(data.comments);
+    console.log(timePublish)
+    console.log(last_comment_time)
 
     document.getElementById('date_min').setAttribute('min', timePublish);
     document.getElementById('date_min').setAttribute('max', last_comment_time);
-    // document.getElementById('date_min').setAttribute('max', );
 
     d3.select("#selectButton").on("click", function (d) {
         let timeMin = document.getElementById('date_min').value;
