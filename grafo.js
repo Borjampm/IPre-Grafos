@@ -188,7 +188,7 @@ function createGrafo(data) {
 
     data.comments = create_tree_comments(data.comments);
 
-    // Crear Grafo
+    // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
     const treemap = d3.tree().size([height, width]);
@@ -235,7 +235,7 @@ function createGrafo(data) {
         .text(d => d.data.creator);
 
 
-    // Filtro Fechas
+    // ---------------------------------------------- Filtro Fechas ----------------------------------------------
     function filtrar_fecha(timeMin, timeMax, time) {
         if (time < timeMin) { return 0.4 }
         if (time > timeMax) { return 0.1 }
@@ -266,7 +266,7 @@ function createGrafo(data) {
         })
     })
 
-    // Tooltip
+    // ---------------------------------------------- Tooltip ----------------------------------------------
     var Tooltip = d3.select("#vis-1")
         .append("div")
         .style("opacity", 0)
