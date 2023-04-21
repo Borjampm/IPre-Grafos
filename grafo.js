@@ -1,5 +1,5 @@
-function runCode(i) {
-    d3.json(`Datos/specific_new/${i}.json`)
+function runCode() {
+    d3.json(data_path)
         .then((data) => {
             // data.comments = comments_processed(data.comments);
             createGrafo(data);
@@ -85,7 +85,7 @@ function max_level(comments) {
 
 
 // -------------------------------- Funciones Auxiliares ------------------------
-function transform_date(date, time) {
+function transform_min_date(date, time){
     var dateArray = date.split(' ');
     var month = monthname_to_number(dateArray[2]);
     var aux = dateArray[4] + "-"
@@ -94,8 +94,20 @@ function transform_date(date, time) {
         + time;
     return aux
 }
+function transform_max_date(date, time){
+    var dateArray = date.split(' ');
+    var month = monthname_to_number(dateArray[2]);
+    var day = 3 + parseInt(dateArray[0]);
+    console.log(dateArray[0])
+    console.log(day);
+    var aux = dateArray[4] + "-"
+            + month + "-"
+            + day + "T"
+            + time;
+    return aux
+}
 
-function monthname_to_number(month) {
+function monthname_to_number(month){
     var monthsNumber = {
         'Enero': '1',
         'Febrero': '2',
@@ -213,8 +225,9 @@ function createGrafo(data) {
         return 1;
     }
 
-    const timePublish = transform_date(data.date, data.time);
-    const last_comment_time = get_last_comment_time(data.comments);
+    const timePublish = transform_min_date(data.date, data.time);
+    const last_comment_time = transform_max_date(data.date, data.time);
+    // const last_comment_time = get_last_comment_time(data.comments);
 
     document.getElementById('date_min').setAttribute('min', timePublish);
     document.getElementById('date_min').setAttribute('max', last_comment_time);
