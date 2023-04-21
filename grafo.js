@@ -1,6 +1,5 @@
-data_path = "Datos/specific_new/20.json"
-function runCode() {
-    d3.json(data_path)
+function runCode(i) {
+    d3.json(`Datos/specific_new/${i}.json`)
         .then((data) => {
             // data.comments = comments_processed(data.comments);
             createGrafo(data);
@@ -8,7 +7,22 @@ function runCode() {
         .catch((error) => console.log(error));
 }
 
-runCode();
+// Crear selector
+const SELECTOR = d3.select("#selector").append("select").attr("id", "selectorObject");
+
+SELECTOR.selectAll("option")
+    .data(d3.range(1001))
+    .join("option")
+    .attr("value", d => d)
+    .text(d => d);
+
+SELECTOR.on('change', () => {
+    let index = document.getElementById("selectorObject").selectedOptions[0].value;
+    console.log(index)
+    runCode(index);
+});
+
+runCode(0);
 
 // -------------------------------- Limpiar Datos ----------------------
 
@@ -71,17 +85,17 @@ function max_level(comments) {
 
 
 // -------------------------------- Funciones Auxiliares ------------------------
-function transform_date(date, time){
+function transform_date(date, time) {
     var dateArray = date.split(' ');
     var month = monthname_to_number(dateArray[2]);
     var aux = dateArray[4] + "-"
-            + month + "-"
-            + dateArray[0] + "T"
-            + time;
+        + month + "-"
+        + dateArray[0] + "T"
+        + time;
     return aux
 }
 
-function monthname_to_number(month){
+function monthname_to_number(month) {
     var monthsNumber = {
         'Enero': '1',
         'Febrero': '2',
@@ -95,7 +109,7 @@ function monthname_to_number(month){
         'Octubre': '10',
         'Noviembre': '11',
         'Diciembre': '12'
-        };
+    };
     return monthsNumber[month]
 }
 
@@ -117,7 +131,7 @@ function get_last_comment_time(comments) {
     var aux = year + "-"
         + month + "-"
         + day + "T";
-        // + time;
+    // + time;
     console.log(aux)
     return aux
 }
@@ -129,6 +143,7 @@ const WIDTH = 400;
 
 function createGrafo(data) {
 
+    d3.select("#vis-1").select("svg").remove()
     // Constantes
     const tree_depth = max_level(data.comments);
     const tree_height = data.comments.length;
@@ -149,8 +164,7 @@ function createGrafo(data) {
 
     const treemap = d3.tree().size([height, width]);
     nodes = treemap(nodes);
-    const svg = d3.select("#vis-1")
-        .append("svg")
+    const svg = d3.select("#vis-1").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
 
@@ -215,7 +229,7 @@ function createGrafo(data) {
         timeMax = timeMin + timeInterval;
 
         node.selectAll("circle")
-        .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
+            .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
 
         link.attr("opacity", d => {
             return filtrar_fecha(timeMin, timeMax, d.data.time)
@@ -229,28 +243,28 @@ function createGrafo(data) {
         .attr("class", "tooltip")
 
     node.selectAll("circle")
-        .on("mouseleave", function(event, d){
+        .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
                 .style("display", "none")
             // d3.pointer(event)
             // .style("stroke", "black")
-    })
-    .on("mouseover", function(event, d){
-        Tooltip.style("opacity", 1)
-            .style("display", "block")
-        // d3.pointer(event)
-        // .style("stroke", "black")
-    })
-    .on("mousemove", function(event, d){
-        Tooltip
-        .html(
-        "Autor: " + d.data.creator + "<br>" +
-        "Comentario: " + d.data.text + "<br>" +
-        "Subido el: " + Date(d.data.time) + "<br>" +
-        "Cantidad de Likes: " + d.data.likes + "<br>" +
-        "Cantidad de Dislikes: " + d.data.dislikes + "<br>"
-        )
-        .style("left", (event.pageX + 10) + "px")
-        .style("top", (event.pageY + -10) + "px")
-    })
+        })
+        .on("mouseover", function (event, d) {
+            Tooltip.style("opacity", 1)
+                .style("display", "block")
+            // d3.pointer(event)
+            // .style("stroke", "black")
+        })
+        .on("mousemove", function (event, d) {
+            Tooltip
+                .html(
+                    "Autor: " + d.data.creator + "<br>" +
+                    "Comentario: " + d.data.text + "<br>" +
+                    "Subido el: " + Date(d.data.time) + "<br>" +
+                    "Cantidad de Likes: " + d.data.likes + "<br>" +
+                    "Cantidad de Dislikes: " + d.data.dislikes + "<br>"
+                )
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY + -10) + "px")
+        })
 }
