@@ -20,7 +20,8 @@ SELECTOR.on('change', () => {
     runCode(index);
 });
 
-runCode(0);
+
+// actualizar selector para que diga 10
 
 // -------------------------------- Limpiar Datos ----------------------
 
@@ -164,12 +165,15 @@ function get_last_comment_time(comments) {
 
 // -------------------------------- Crear Grafo ------------------------
 // Parametros
-const HEIGTH = 100;
+const HEIGTH = 200;
 const WIDTH = 40;
+const SVG = d3.select("#vis-1").append("svg");
+SVG.append("g")
+runCode(10);
 
 function createGrafo(data) {
+    console.log(data);
 
-    d3.select("#vis-1").select("svg").remove()
     // Constantes
     const tree_depth = max_level(data.comments);
     const tree_height = data.comments.length;
@@ -193,11 +197,11 @@ function createGrafo(data) {
 
     const treemap = d3.tree().size([width, height]);
     nodes = treemap(nodes);
-    const svg = d3.select("#vis-1").append("svg")
+    SVG
         .attr("width", width + margin.left + margin.right)
         .attr("height", 100+height + margin.top + margin.bottom)
 
-    const g = svg.append("g")
+    const g = SVG.select("g")
         .attr("transform", `translate(${margin.top}, ${margin.left})`);
 
     let linkGen = d3.linkVertical()
@@ -206,23 +210,27 @@ function createGrafo(data) {
 
 
     const link = g.selectAll(".link")
-        .data(nodes.descendants().slice(1))
-        .enter().append("path")
+        .data(nodes.descendants().slice(1), d => d.id)
+        .join("path")
         .attr("class", "link")
         .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
         .attr("d", linkGen);
 
     const node = g.selectAll(".node")
         .data(nodes.descendants())
-        .enter().append("g")
+        .join("g")
         .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
         .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+        node.raise();
 
     radius = d3.scaleSqrt()
         .domain([0, 10])
         .range([5, 20])
 
     node.append("circle")
+        .attr("class", d => {
+            return d.parent?'comentario':'titulo'})
         .attr("r", d => 15)
         .style("stroke", d => d.data.likes)
         .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
@@ -269,7 +277,8 @@ function createGrafo(data) {
         .style("opacity", 0)
         .attr("class", "tooltip")
 
-    node.selectAll("circle")
+        // node.selectAll(".noticia")
+        node.selectAll(".comentario")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
                 .style("display", "none")
