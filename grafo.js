@@ -186,6 +186,9 @@ function createGrafo(data) {
     const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
         .domain([...Array(tree_depth).keys()]);
 
+    const colorScale = d3.scaleDiverging(d => d3.interpolateRdBu(d))
+        .domain([0, 0.5, 1]);
+
     data.comments = create_tree_comments(data.comments);
 
     // ------------------------------------------- Crear Grafo -------------------------------------------
@@ -209,7 +212,7 @@ function createGrafo(data) {
         .data(nodes.descendants().slice(1))
         .enter().append("path")
         .attr("class", "link")
-        .style("stroke", d => COLOR(d.data.level))
+        .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
         .attr("d", linkGen);
 
     const node = g.selectAll(".node")
@@ -223,16 +226,10 @@ function createGrafo(data) {
         .range([5, 20])
 
     node.append("circle")
-        .attr("r", d => radius(d.data.likes))
+        .attr("r", d => 15)
         .style("stroke", d => d.data.likes)
-        .style("fill", d => COLOR(d.data.level));
-
-    node.append("text")
-        .attr("dy", ".35em")
-        .attr("x", d => radius(d.data.likes) + 5)
-        .attr("y", d => 20)
-        .style("text-anchor", d => d.comments ? "end" : "start")
-        .text(d => d.data.creator);
+        .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
+        // .style("fill", d => COLOR(d.data.level));
 
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
