@@ -17,11 +17,11 @@ SELECTOR.selectAll("option")
 
 SELECTOR.on('change', () => {
     let index = document.getElementById("selectorObject").selectedOptions[0].value;
-    console.log(index)
     runCode(index);
 });
 
-runCode(0);
+
+// actualizar selector para que diga 10
 
 // -------------------------------- Limpiar Datos ----------------------
 
@@ -108,27 +108,27 @@ function transform_max_date(date, time){
 
 function monthname_to_number(month){
     var monthsNumber = {
-        'Enero': '1',
-        'Febrero': '2',
-        'Marzo': '3',
-        'Abril': '4',
-        'Mayo': '5',
-        'Junio': '6',
-        'Julio': '7',
-        'Agosto': '8',
-        'Septiembre': '9',
+        'Enero': '01',
+        'Febrero': '02',
+        'Marzo': '03',
+        'Abril': '04',
+        'Mayo': '05',
+        'Junio': '06',
+        'Julio': '07',
+        'Agosto': '08',
+        'Septiembre': '09',
         'Octubre': '10',
         'Noviembre': '11',
         'Diciembre': '12',
-        'Jan': '1',
-        'Feb': '2',
-        'Mar': '3',
-        'Apr': '4',
-        'May': '5',
-        'Jun': '6',
-        'Jul': '7',
-        'Agu': '8',
-        'Sep': '9',
+        'Jan': '01',
+        'Feb': '02',
+        'Mar': '03',
+        'Apr': '04',
+        'May': '05',
+        'Jun': '06',
+        'Jul': '07',
+        'Agu': '08',
+        'Sep': '09',
         'Oct': '10',
         'Nov': '11',
         'Dec': '12'
@@ -143,7 +143,6 @@ function get_last_comment_time(comments) {
             max = comment.time;
         }
     }
-    console.log(max);
     var max_time = new Date(max);
     max_time = max_time.toString().split(' ')
     var month = monthname_to_number(max_time[1]);
@@ -156,7 +155,6 @@ function get_last_comment_time(comments) {
     } else if (min.length == 0) {
         min = "00";
     }
-    console.log(max_time)
     var aux = max_time[3] + "-"
         + month + "-"
         + max_time[2] + "T"
@@ -167,72 +165,76 @@ function get_last_comment_time(comments) {
 
 // -------------------------------- Crear Grafo ------------------------
 // Parametros
-const HEIGTH = 40;
-const WIDTH = 400;
+const HEIGTH = 200;
+const WIDTH = 40;
+const SVG = d3.select("#vis-1").append("svg");
+SVG.append("g")
+runCode(10);
 
 function createGrafo(data) {
+    console.log(data);
 
-    d3.select("#vis-1").select("svg").remove()
     // Constantes
     const tree_depth = max_level(data.comments);
     const tree_height = data.comments.length;
 
-    const margin = { top: 20, right: 150, bottom: 30, left: 90 };
-    const width = WIDTH * Math.sqrt(tree_depth + 1) - margin.left - margin.right;
-    const height = (100 + HEIGTH * tree_height) - margin.top - margin.bottom;
+    const margin = { top: 20, right: 30, bottom: 30, left: 90 };
+    const width = WIDTH * tree_height - margin.left - margin.right;
+    const height = (HEIGTH * Math.sqrt(tree_depth + 1)) - margin.top - margin.bottom;
 
     // Modificar Datos
     data = data_processed(data);
     const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
         .domain([...Array(tree_depth).keys()]);
 
+    const colorScale = d3.scaleDiverging(d => d3.interpolateRdBu(d))
+        .domain([0, 0.5, 1]);
+
     data.comments = create_tree_comments(data.comments);
 
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
-    const treemap = d3.tree().size([height, width]);
+    const treemap = d3.tree().size([width, height]);
     nodes = treemap(nodes);
-    const svg = d3.select("#vis-1").append("svg")
+    SVG
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("height", 100+height + margin.top + margin.bottom)
 
-    const g = svg.append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    const g = SVG.select("g")
+        .attr("transform", `translate(${margin.top}, ${margin.left})`);
 
-    let linkGen = d3.linkHorizontal()
-        .source(d => [d.y, d.x])
-        .target(d => [d.parent.y, d.parent.x]);;
+    let linkGen = d3.linkVertical()
+        .source(d => [d.x, d.y])
+        .target(d => [d.parent.x, d.parent.y]);;
 
 
     const link = g.selectAll(".link")
-        .data(nodes.descendants().slice(1))
-        .enter().append("path")
+        .data(nodes.descendants().slice(1), d => d.id)
+        .join("path")
         .attr("class", "link")
-        .style("stroke", d => COLOR(d.data.level))
+        .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
         .attr("d", linkGen);
 
     const node = g.selectAll(".node")
         .data(nodes.descendants())
-        .enter().append("g")
+        .join("g")
         .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
-        .attr("transform", d => `translate(${d.y}, ${d.x})`);
+        .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+        node.raise();
 
     radius = d3.scaleSqrt()
         .domain([0, 10])
         .range([5, 20])
 
     node.append("circle")
-        .attr("r", d => radius(d.data.likes))
+        .attr("class", d => {
+            return d.parent?'comentario':'titulo'})
+        .attr("r", d => 15)
         .style("stroke", d => d.data.likes)
-        .style("fill", d => COLOR(d.data.level));
-
-    node.append("text")
-        .attr("dy", ".35em")
-        .attr("x", d => radius(d.data.likes) + 5)
-        .attr("y", d => 20)
-        .style("text-anchor", d => d.comments ? "end" : "start")
-        .text(d => d.data.creator);
+        .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
+        // .style("fill", d => COLOR(d.data.level));
 
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
@@ -242,16 +244,19 @@ function createGrafo(data) {
         return 1;
     }
 
-    const timePublish = transform_min_date(data.date, data.time);
-    const last_comment_time = get_last_comment_time(data.comments);
-    console.log(timePublish)
-    console.log(last_comment_time)
+    var timePublish = transform_min_date(data.date, data.time);
+    var last_comment_time = get_last_comment_time(data.comments);
+    console.log(timePublish);
+    console.log(last_comment_time);
 
     document.getElementById('date_min').setAttribute('min', timePublish);
+    // document.getElementById('date_min').setAttribute('min', "2020-01-01T00:00");
+    // document.getElementById('date_min').setAttribute('max', "2020-04-01T00:00");
     document.getElementById('date_min').setAttribute('max', last_comment_time);
 
     d3.select("#selectButton").on("click", function (d) {
         let timeMin = document.getElementById('date_min').value;
+        console.log(timeMin);
         let timeInterval = document.getElementById('date_interval').value;
 
         timeMin = Date.parse(timeMin);
@@ -272,7 +277,8 @@ function createGrafo(data) {
         .style("opacity", 0)
         .attr("class", "tooltip")
 
-    node.selectAll("circle")
+        // node.selectAll(".noticia")
+        node.selectAll(".comentario")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
                 .style("display", "none")
