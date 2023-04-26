@@ -17,7 +17,6 @@ SELECTOR.selectAll("option")
 
 SELECTOR.on('change', () => {
     let index = document.getElementById("selectorObject").selectedOptions[0].value;
-    console.log(index)
     runCode(index);
 });
 
@@ -108,27 +107,27 @@ function transform_max_date(date, time){
 
 function monthname_to_number(month){
     var monthsNumber = {
-        'Enero': '1',
-        'Febrero': '2',
-        'Marzo': '3',
-        'Abril': '4',
-        'Mayo': '5',
-        'Junio': '6',
-        'Julio': '7',
-        'Agosto': '8',
-        'Septiembre': '9',
+        'Enero': '01',
+        'Febrero': '02',
+        'Marzo': '03',
+        'Abril': '04',
+        'Mayo': '05',
+        'Junio': '06',
+        'Julio': '07',
+        'Agosto': '08',
+        'Septiembre': '09',
         'Octubre': '10',
         'Noviembre': '11',
         'Diciembre': '12',
-        'Jan': '1',
-        'Feb': '2',
-        'Mar': '3',
-        'Apr': '4',
-        'May': '5',
-        'Jun': '6',
-        'Jul': '7',
-        'Agu': '8',
-        'Sep': '9',
+        'Jan': '01',
+        'Feb': '02',
+        'Mar': '03',
+        'Apr': '04',
+        'May': '05',
+        'Jun': '06',
+        'Jul': '07',
+        'Agu': '08',
+        'Sep': '09',
         'Oct': '10',
         'Nov': '11',
         'Dec': '12'
@@ -143,7 +142,6 @@ function get_last_comment_time(comments) {
             max = comment.time;
         }
     }
-    console.log(max);
     var max_time = new Date(max);
     max_time = max_time.toString().split(' ')
     var month = monthname_to_number(max_time[1]);
@@ -156,7 +154,6 @@ function get_last_comment_time(comments) {
     } else if (min.length == 0) {
         min = "00";
     }
-    console.log(max_time)
     var aux = max_time[3] + "-"
         + month + "-"
         + max_time[2] + "T"
@@ -239,16 +236,19 @@ function createGrafo(data) {
         return 1;
     }
 
-    const timePublish = transform_min_date(data.date, data.time);
-    const last_comment_time = get_last_comment_time(data.comments);
-    console.log(timePublish)
-    console.log(last_comment_time)
+    var timePublish = transform_min_date(data.date, data.time);
+    var last_comment_time = get_last_comment_time(data.comments);
+    console.log(timePublish);
+    console.log(last_comment_time);
 
     document.getElementById('date_min').setAttribute('min', timePublish);
+    // document.getElementById('date_min').setAttribute('min', "2020-01-01T00:00");
+    // document.getElementById('date_min').setAttribute('max', "2020-04-01T00:00");
     document.getElementById('date_min').setAttribute('max', last_comment_time);
 
     d3.select("#selectButton").on("click", function (d) {
         let timeMin = document.getElementById('date_min').value;
+        console.log(timeMin);
         let timeInterval = document.getElementById('date_interval').value;
 
         timeMin = Date.parse(timeMin);
