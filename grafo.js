@@ -192,7 +192,7 @@ function sleep(ms) {
   }
 
 async function dataInterval(unfiltered_data) {
-    const steps = 10;
+    const steps = 20;
 // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
     var data = data_processed(unfiltered_data);
 
@@ -217,7 +217,7 @@ async function dataInterval(unfiltered_data) {
         data.comments = aux;
         data.comments = create_tree_comments(data.comments);
         createGrafo(unfiltered_data, data);
-        await sleep(500);
+        await sleep(250);
     }
 }
 // 1453670904000
