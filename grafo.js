@@ -1,7 +1,8 @@
 function runCode(i) {
     d3.json(`Datos/specific_new/${i}.json`)
         .then((data) => {
-            createGrafo(data);
+            const unfiltered_data = data;
+            data = dataInterval(unfiltered_data);
         })
         .catch((error) => console.log(error));
 }
@@ -162,7 +163,23 @@ function get_last_comment_time(comments) {
     return aux
 }
 
-// -------------------------------- Crear Grafo ------------------------
+function filterInterval(timePublish, last_comment_time, comments, iteration) {
+    // siempre se separa en 10 intervalos
+    var min = Date.parse(timePublish);
+    var max = Date.parse(last_comment_time);
+    var interval = (max - min) / 10;
+    var actual_max = min + interval * iteration;
+    for (comment of comments) {
+        if (comment.time <= actual_max) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+}
+
+
 // Parametros
 const HEIGTH = 200;
 const WIDTH = 40;
@@ -170,19 +187,51 @@ const SVG = d3.select("#vis-1").append("svg");
 SVG.append("g")
 runCode(PRIMERANOTICIA);
 
-function createGrafo(data) {
-    console.log(data);
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+async function dataInterval(unfiltered_data) {
+    const steps = 10;
+// ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
+    var data = data_processed(unfiltered_data);
+
+    var timePublish = transform_min_date(data.date, data.time);
+    var last_comment_time = get_last_comment_time(data.comments);
+    console.log(timePublish)
+
+    var min = Date.parse(timePublish);
+    var max = Date.parse(last_comment_time);
+    var interval = (max - min) / steps;
+    for (var i = 0; i < steps+1; i++) {
+        var data = data_processed(unfiltered_data);
+        var actual_max = min + interval * i;
+        console.log(actual_max);
+        var aux = [];
+        for (comment of data.comments) {
+            if (comment.time <= actual_max) {
+                aux.push(comment);
+            }
+        }
+        console.log(aux)
+        data.comments = aux;
+        data.comments = create_tree_comments(data.comments);
+        createGrafo(unfiltered_data, data);
+        await sleep(500);
+    }
+}
+// 1453670904000
+// 1453669072000
+// ---------------------------------------------- Crear Grafo -----------------------------------
+function createGrafo(unfiltered_data, data) {
 
     // Constantes
-    const tree_depth = max_level(data.comments);
-    const tree_height = data.comments.length;
+    const tree_depth = max_level(unfiltered_data.comments);
+    const tree_height = unfiltered_data.comments.length;
 
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     const width = WIDTH * tree_height - margin.left - margin.right;
     const height = (HEIGTH * Math.sqrt(tree_depth + 1)) - margin.top - margin.bottom;
-
-    // Modificar Datos
-    data = data_processed(data);
 
     const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
         .domain([...Array(tree_depth).keys()]);
@@ -190,9 +239,7 @@ function createGrafo(data) {
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdBu(d))
         .domain([0, 0.5, 1]);
 
-    data.comments = create_tree_comments(data.comments);
-
-    if (data.comments.length == 0) {
+    if (unfiltered_data.comments.length == 0) {
         document.getElementById('status').innerText = 'No hay comentarios para esta noticia';
     } else {
         document.getElementById('status').innerText = '';
@@ -214,7 +261,6 @@ function createGrafo(data) {
         .source(d => [d.x, d.y])
         .target(d => [d.parent.x, d.parent.y]);;
 
-
     const link = g.selectAll(".link")
         .data(nodes.descendants().slice(1), d => d.id)
         .join("path")
@@ -228,7 +274,7 @@ function createGrafo(data) {
         .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
         .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
-        node.raise();
+    node.raise();
 
     radius = d3.scaleSqrt()
         .domain([0, 10])
@@ -272,6 +318,7 @@ function createGrafo(data) {
             return filtrar_fecha(timeMin, timeMax, d.data.time)
         })
     })
+
 
     // ---------------------------------------------- Tooltip ----------------------------------------------
     var Tooltip = d3.select("#vis-1")
