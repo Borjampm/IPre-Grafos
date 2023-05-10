@@ -7,6 +7,7 @@ function runCode(i) {
 }
 
 // Crear selector
+const PRIMERANOTICIA = 10; // Parametro para elegir la primera noticia que se muestra
 const SELECTOR = d3.select("#selector").append("select").attr("id", "selectorObject");
 
 SELECTOR.selectAll("option")
@@ -20,8 +21,7 @@ SELECTOR.on('change', () => {
     runCode(index);
 });
 
-
-// actualizar selector para que diga 10
+document.getElementById("selectorObject").selectedIndex = PRIMERANOTICIA;
 
 // -------------------------------- Limpiar Datos ----------------------
 
@@ -35,8 +35,7 @@ function data_processed(d) {
         body: d.text,
         url: d.url,
         comments: d.comments,
-        level: -1,
-        likes: 20
+        level: -1
     }
     return data
 }
@@ -169,7 +168,7 @@ const HEIGTH = 200;
 const WIDTH = 40;
 const SVG = d3.select("#vis-1").append("svg");
 SVG.append("g")
-runCode(10);
+runCode(PRIMERANOTICIA);
 
 function createGrafo(data) {
     console.log(data);
@@ -184,6 +183,7 @@ function createGrafo(data) {
 
     // Modificar Datos
     data = data_processed(data);
+
     const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
         .domain([...Array(tree_depth).keys()]);
 
@@ -192,6 +192,12 @@ function createGrafo(data) {
 
     data.comments = create_tree_comments(data.comments);
 
+    if (data.comments.length == 0) {
+        document.getElementById('status').innerText = 'No hay comentarios para esta noticia';
+    } else {
+        document.getElementById('status').innerText = '';
+
+    }
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
@@ -246,17 +252,13 @@ function createGrafo(data) {
 
     var timePublish = transform_min_date(data.date, data.time);
     var last_comment_time = get_last_comment_time(data.comments);
-    console.log(timePublish);
-    console.log(last_comment_time);
 
     document.getElementById('date_min').setAttribute('min', timePublish);
-    // document.getElementById('date_min').setAttribute('min', "2020-01-01T00:00");
-    // document.getElementById('date_min').setAttribute('max', "2020-04-01T00:00");
+    document.getElementById('date_min').setAttribute('value', timePublish);
     document.getElementById('date_min').setAttribute('max', last_comment_time);
 
     d3.select("#selectButton").on("click", function (d) {
         let timeMin = document.getElementById('date_min').value;
-        console.log(timeMin);
         let timeInterval = document.getElementById('date_interval').value;
 
         timeMin = Date.parse(timeMin);
@@ -277,7 +279,30 @@ function createGrafo(data) {
         .style("opacity", 0)
         .attr("class", "tooltip")
 
-        // node.selectAll(".noticia")
+        node.selectAll(".titulo")
+        .on("mouseleave", function (event, d) {
+            Tooltip.style("opacity", 0)
+                .style("display", "none")
+            // d3.pointer(event)
+            // .style("stroke", "black")
+        })
+        .on("mouseover", function (event, d) {
+            Tooltip.style("opacity", 1)
+                .style("display", "block")
+            // d3.pointer(event)
+            // .style("stroke", "black")
+        })
+        .on("mousemove", function (event, d) {
+            Tooltip
+                .html(
+                    "<h1>" + d.data.title + "</h1>" +
+                    "<h2>" + d.data.date + ' | ' + 'Redactado por ' + d.data.creator + "</h2>" +
+                    "<p>"  + d.data.body + "</p>"
+                )
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY + -10) + "px")
+        })
+
         node.selectAll(".comentario")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)

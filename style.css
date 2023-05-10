@@ -1,24 +1,59 @@
 body {
-    background-color: #eee;
-  }
+  background-color: #eee;
+}
 
-  .node circle {
-    fill: #fff;
-    stroke: black;
-    stroke-width: 1px;
-  }
+.container {
+  width: auto;
+  height: auto;
+  background-color: rgb(42, 113, 174);
+  padding: 3%;
+  text-align: center;
+}
 
-  .node text { font: 16px sans-serif; }
+h2 {
+  font-size: 40px;
+  margin: 0px;
+}
+.container h3 {
+  font-size: 20px;
+  margin: 0px;
+  padding: 1%;
+}
 
-  .link {
-    fill: none;
-    stroke: #ccc;
-    stroke-width: 2px;
-  }
+.wrapper{
+  border-color: #000;
+  border-width: 2px;
+  border-style: solid;
+  max-width: 750px;
+  display: inline-block;
+  padding: 1%;
+  margin: 2px;
+}
 
-  .filtro{
-    text-align: center;
-  }
+.node circle {
+  fill: #fff;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+.node text {
+  font: 16px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+
+.filtro{
+  text-align: center;
+  margin: 2px;
+}
+
+#selector{
+  position: relative;
+}
 
 .tooltip{
   position: absolute;
@@ -29,4 +64,25 @@ body {
   padding: 5px;
   max-width: 350px;
   text-align: justify;
+}
+
+.tooltip h1{
+  font-size: large;
+  margin: 0px;
+}
+.tooltip h2{
+  font-size: large;
+  font-weight: normal;
+  margin: 0px;
+}
+
+.status{
+  color: black;
+  height: 25px;
+}
+
+#status{
+  position: relative;
+  display: inline-block;
+  font-size: large;
 }
