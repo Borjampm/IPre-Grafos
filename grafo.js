@@ -185,6 +185,11 @@ const HEIGTH = 200;
 const WIDTH = 40;
 const SVG = d3.select("#vis-1").append("svg");
 SVG.append("g")
+let Tooltip = d3.select("#vis-1")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+
 runCode(PRIMERANOTICIA);
 
 function sleep(ms) {
@@ -192,7 +197,7 @@ function sleep(ms) {
   }
 
 async function dataInterval(unfiltered_data) {
-    const steps = 20;
+    const steps = 10;
 // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
     var data = data_processed(unfiltered_data);
 
@@ -217,11 +222,10 @@ async function dataInterval(unfiltered_data) {
         data.comments = aux;
         data.comments = create_tree_comments(data.comments);
         createGrafo(unfiltered_data, data);
-        await sleep(250);
+        await sleep(1000);
     }
 }
-// 1453670904000
-// 1453669072000
+
 // ---------------------------------------------- Crear Grafo -----------------------------------
 function createGrafo(unfiltered_data, data) {
 
@@ -259,20 +263,36 @@ function createGrafo(unfiltered_data, data) {
 
     let linkGen = d3.linkVertical()
         .source(d => [d.x, d.y])
-        .target(d => [d.parent.x, d.parent.y]);;
+        .target(d => [d.parent.x, d.parent.y]);
+    let linkGen2 = d3.linkVertical()
+        .source(d => [d.parent.x, d.parent.y])
+        .target(d => [d.parent.x, d.parent.y]);
+
+    console.log("nodos", nodes.descendants().slice(1))
 
     const link = g.selectAll(".link")
-        .data(nodes.descendants().slice(1), d => d.id)
-        .join("path")
-        .attr("class", "link")
-        .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
-        .attr("d", linkGen);
+        .data(nodes.descendants().slice(1), d => d.data.id)
+        .join(enter => {
+            const dato_nuevo = enter.append("path")
+                .attr("class", "link")
+                .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
+                .attr("d", linkGen2);
+            return dato_nuevo
+        }, update => {
+            return update
+        }, exit => {
+            exit.remove()
+        })
 
     const node = g.selectAll(".node")
         .data(nodes.descendants())
         .join("g")
         .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
         .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+
+    link.transition().duration(1000).attr("d", linkGen);
+
 
     node.raise();
 
@@ -321,11 +341,6 @@ function createGrafo(unfiltered_data, data) {
 
 
     // ---------------------------------------------- Tooltip ----------------------------------------------
-    var Tooltip = d3.select("#vis-1")
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-
         node.selectAll(".titulo")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
