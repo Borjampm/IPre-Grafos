@@ -179,7 +179,7 @@ function sleep(ms) {
 
 async function dataInterval(unfiltered_data) {
     const steps = 10;
-    const time_sleep = 0;
+    const time_sleep = 1000;
 // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
     var data = data_processed(unfiltered_data);
     if (data.comments.length == 0) {
@@ -189,10 +189,11 @@ async function dataInterval(unfiltered_data) {
     } else {
         var timePublish = transform_min_date(data.date, data.time);
         var last_comment_time = get_last_comment_time(data.comments);
+        console.log(timePublish, last_comment_time)
         document.getElementById('status').innerText = 'Generando grafo... (No cambiar de noticia)';
 
         var min = Date.parse(timePublish+":00.000+00:00");
-        var max = Date.parse(last_comment_time+":00.000+00:00");
+        var max = Date.parse(last_comment_time);
         var interval = (max - min) / steps;
         for (var i = 0; i < steps+1; i++) {
             var data = data_processed(unfiltered_data);
@@ -205,6 +206,7 @@ async function dataInterval(unfiltered_data) {
             }
             data.comments = aux;
             data.comments = create_tree_comments(data.comments);
+            console.log(data.comments.length, unfiltered_data.comments.length)
             createGrafo(unfiltered_data, data, time_sleep);
             await sleep(time_sleep);
         }
@@ -268,16 +270,16 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     //     .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
     const node = g.selectAll(".node")
-    .data(nodes.descendants(), d => d.data.id)
-    .join(enter => {
-        const node_nuevo = enter.append("g")
-            .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
-            .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`);
-        return node_nuevo
-    }, update => {
-        return update
-    }, exit => {
-        exit.remove()
+        .data(nodes.descendants().slice(1), d => d.data.id)
+        .join(enter => {
+            const node_nuevo = enter.append("g")
+                .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
+                .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`);
+            return node_nuevo
+        }, update => {
+            return update
+        }, exit => {
+            exit.remove()
     })
 
 
@@ -323,10 +325,13 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         timeMin = Date.parse(timeMin);
         timeInterval = timeInterval * 60 * 1000;
         timeMax = timeMin + timeInterval;
-        console.log(timeMax)
+        console.log(timeMin, timeMax)
 
         node.selectAll("circle")
-            .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
+            .attr("opacity", d => {
+                console.log("yo")
+                return filtrar_fecha(timeMin, timeMax, d.data.time)
+            })
 
         link.attr("opacity", d => {
             return filtrar_fecha(timeMin, timeMax, d.data.time)
