@@ -300,8 +300,36 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         .attr("r", d => 15)
         .style("stroke", d => d.data.likes)
         .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
-        // .style("fill", d => COLOR(d.data.level));
 
+
+    // const node = g.selectAll(".node")
+    //     .data(nodes.descendants().slice(1), d => d.data.id)
+    //     .join(enter => {
+    //         const node_nuevo = enter.append("circle")
+    //             .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf") + (d.parent?' comentario':' titulo'))
+    //             .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`)
+    //             // .attr("class", d => {
+    //             //     return d.parent?'comentario':'titulo'})
+    //             .attr("r", 15)
+    //             .style("stroke", d => d.data.likes)
+    //             .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
+    //         return node_nuevo
+    //     }, update => {
+    //         return update
+    //     }, exit => {
+    //         exit.remove()
+    // })
+
+    // link.transition().duration(time_sleep).attr("d", linkGen);
+    // node.transition().duration(time_sleep).attr("transform", d => `translate(${d.x}, ${d.y})`);
+    // node.raise();
+
+    // node.append("circle")
+    //     .attr("class", d => {
+    //         return d.parent?'comentario':'titulo'})
+    //     .attr("r", d => 15)
+    //     .style("stroke", d => d.data.likes)
+    //     .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
     function filtrar_fecha(timeMin, timeMax, time) {
