@@ -97,8 +97,6 @@ function transform_max_date(date, time){
     var dateArray = date.split(' ');
     var month = monthname_to_number(dateArray[2]);
     var day = 2 + parseInt(dateArray[0]);
-    console.log(dateArray[0])
-    console.log(day);
     var aux = dateArray[4] + "-"
             + month + "-"
             + day + "T"
@@ -163,23 +161,6 @@ function get_last_comment_time(comments) {
     return aux
 }
 
-function filterInterval(timePublish, last_comment_time, comments, iteration) {
-    // siempre se separa en 10 intervalos
-    var min = Date.parse(timePublish);
-    var max = Date.parse(last_comment_time);
-    var interval = (max - min) / 10;
-    var actual_max = min + interval * iteration;
-    for (comment of comments) {
-        if (comment.time <= actual_max) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-}
-
-
 // Parametros
 const HEIGTH = 200;
 const WIDTH = 40;
@@ -198,36 +179,41 @@ function sleep(ms) {
 
 async function dataInterval(unfiltered_data) {
     const steps = 10;
+    const time_sleep = 0;
 // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
     var data = data_processed(unfiltered_data);
-
-    var timePublish = transform_min_date(data.date, data.time);
-    var last_comment_time = get_last_comment_time(data.comments);
-    console.log(timePublish)
-
-    var min = Date.parse(timePublish);
-    var max = Date.parse(last_comment_time);
-    var interval = (max - min) / steps;
-    for (var i = 0; i < steps+1; i++) {
-        var data = data_processed(unfiltered_data);
-        var actual_max = min + interval * i;
-        console.log(actual_max);
-        var aux = [];
-        for (comment of data.comments) {
-            if (comment.time <= actual_max) {
-                aux.push(comment);
-            }
-        }
-        console.log(aux)
-        data.comments = aux;
+    if (data.comments.length == 0) {
+        document.getElementById('status').innerText = 'No hay comentarios para esta noticia';
         data.comments = create_tree_comments(data.comments);
-        createGrafo(unfiltered_data, data);
-        await sleep(1000);
+        createGrafo(unfiltered_data, data, time_sleep);
+    } else {
+        var timePublish = transform_min_date(data.date, data.time);
+        var last_comment_time = get_last_comment_time(data.comments);
+        document.getElementById('status').innerText = 'Generando grafo... (No cambiar de noticia)';
+
+        var min = Date.parse(timePublish+":00.000+00:00");
+        var max = Date.parse(last_comment_time+":00.000+00:00");
+        var interval = (max - min) / steps;
+        for (var i = 0; i < steps+1; i++) {
+            var data = data_processed(unfiltered_data);
+            var actual_max = min + interval * i;
+            var aux = [];
+            for (comment of data.comments) {
+                if (comment.time <= actual_max) {
+                    aux.push(comment);
+                }
+            }
+            data.comments = aux;
+            data.comments = create_tree_comments(data.comments);
+            createGrafo(unfiltered_data, data, time_sleep);
+            await sleep(time_sleep);
+        }
+        document.getElementById('status').innerText = 'Grafo generado';
     }
 }
 
 // ---------------------------------------------- Crear Grafo -----------------------------------
-function createGrafo(unfiltered_data, data) {
+function createGrafo(unfiltered_data, data, time_sleep) {
 
     // Constantes
     const tree_depth = max_level(unfiltered_data.comments);
@@ -242,13 +228,6 @@ function createGrafo(unfiltered_data, data) {
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdBu(d))
         .domain([0, 0.5, 1]);
-
-    if (unfiltered_data.comments.length == 0) {
-        document.getElementById('status').innerText = 'No hay comentarios para esta noticia';
-    } else {
-        document.getElementById('status').innerText = '';
-
-    }
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
@@ -268,8 +247,6 @@ function createGrafo(unfiltered_data, data) {
         .source(d => [d.parent.x, d.parent.y])
         .target(d => [d.parent.x, d.parent.y]);
 
-    console.log("nodos", nodes.descendants().slice(1))
-
     const link = g.selectAll(".link")
         .data(nodes.descendants().slice(1), d => d.data.id)
         .join(enter => {
@@ -284,14 +261,29 @@ function createGrafo(unfiltered_data, data) {
             exit.remove()
         })
 
+    // const node = g.selectAll(".node")
+    //     .data(nodes.descendants())
+    //     .join("g")
+    //     .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
+    //     .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
     const node = g.selectAll(".node")
-        .data(nodes.descendants())
-        .join("g")
-        .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
-        .attr("transform", d => `translate(${d.x}, ${d.y})`);
+    .data(nodes.descendants(), d => d.data.id)
+    .join(enter => {
+        const node_nuevo = enter.append("g")
+            .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
+            .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`);
+        return node_nuevo
+    }, update => {
+        return update
+    }, exit => {
+        exit.remove()
+    })
 
 
-    link.transition().duration(1000).attr("d", linkGen);
+
+    link.transition().duration(time_sleep).attr("d", linkGen);
+    node.transition().duration(time_sleep).attr("transform", d => `translate(${d.x}, ${d.y})`);
 
 
     node.raise();
@@ -311,6 +303,7 @@ function createGrafo(unfiltered_data, data) {
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
     function filtrar_fecha(timeMin, timeMax, time) {
+        // console.log(timeMin, timeMax, time)
         if (time < timeMin) { return 0.4 }
         if (time > timeMax) { return 0.1 }
         return 1;
@@ -324,12 +317,13 @@ function createGrafo(unfiltered_data, data) {
     document.getElementById('date_min').setAttribute('max', last_comment_time);
 
     d3.select("#selectButton").on("click", function (d) {
-        let timeMin = document.getElementById('date_min').value;
+        let timeMin = document.getElementById('date_min').value + ":00.000+00:00";
         let timeInterval = document.getElementById('date_interval').value;
 
         timeMin = Date.parse(timeMin);
         timeInterval = timeInterval * 60 * 1000;
         timeMax = timeMin + timeInterval;
+        console.log(timeMax)
 
         node.selectAll("circle")
             .attr("opacity", d => filtrar_fecha(timeMin, timeMax, d.data.time))
@@ -379,11 +373,14 @@ function createGrafo(unfiltered_data, data) {
             // .style("stroke", "black")
         })
         .on("mousemove", function (event, d) {
+            let time = new Date(d.data.time)
+            time = time.toISOString().slice(0, 20)
             Tooltip
                 .html(
                     "Autor: " + d.data.creator + "<br>" +
                     "Comentario: " + d.data.text + "<br>" +
-                    "Subido el: " + new Date(d.data.time) + "<br>" +
+                    "Subido el: " + time + "<br>" +
+                    "Subido el: " + d.data.time + "<br>" +
                     "Cantidad de Likes: " + d.data.likes + "<br>" +
                     "Cantidad de Dislikes: " + d.data.dislikes + "<br>"
                 )
