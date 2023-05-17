@@ -228,7 +228,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
         .domain([...Array(tree_depth).keys()]);
 
-    const colorScale = d3.scaleDiverging(d => d3.interpolateRdBu(d))
+    const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
         .domain([0, 0.5, 1]);
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
