@@ -270,7 +270,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     //     .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
     const node = g.selectAll(".node")
-        .data(nodes.descendants().slice(1), d => d.data.id)
+        .data(nodes.descendants().slice(), d => d.data.id)
         .join(enter => {
             const node_nuevo = enter.append("g")
                 .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
