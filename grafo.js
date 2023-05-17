@@ -255,7 +255,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
             const dato_nuevo = enter.append("path")
                 .attr("class", "link")
                 .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
-                .attr("d", linkGen2);
+                .attr("d", linkGen2)
             return dato_nuevo
         }, update => {
             return update
@@ -275,6 +275,13 @@ function createGrafo(unfiltered_data, data, time_sleep) {
             const node_nuevo = enter.append("g")
                 .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
                 .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`);
+
+                node_nuevo.append("circle")
+                    .attr("class", d => {
+                        return d.parent?'comentario':'titulo'})
+                    .attr("r", 15)
+                    .style("stroke", d => d.data.likes)
+                    .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
             return node_nuevo
         }, update => {
             return update
@@ -293,13 +300,6 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     radius = d3.scaleSqrt()
         .domain([0, 10])
         .range([5, 20])
-
-    node.append("circle")
-        .attr("class", d => {
-            return d.parent?'comentario':'titulo'})
-        .attr("r", d => 15)
-        .style("stroke", d => d.data.likes)
-        .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
 
 
     // const node = g.selectAll(".node")
