@@ -269,19 +269,23 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     //     .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
     //     .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
+
+
     const node = g.selectAll(".node")
         .data(nodes.descendants().slice(), d => d.data.id)
         .join(enter => {
             const node_nuevo = enter.append("g")
+                .attr("id", d => d.data.id)
                 .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
-                .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`);
+                .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`)
+                .attr("x_original", d => d.x)
+                .attr("y_original", d => d.y);
 
-                node_nuevo.append("circle")
-                    .attr("class", d => {
-                        return d.parent?'comentario':'titulo'})
-                    .attr("r", 15)
-                    .style("stroke", d => d.data.likes)
-                    .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
+            node_nuevo.append("circle")
+                .attr("class", d => {return d.parent?'comentario':'titulo'})
+                .attr("r", 15)
+                .style("stroke", d => d.data.likes)
+                .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
             return node_nuevo
         }, update => {
             return update
@@ -333,7 +337,6 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
     function filtrar_fecha(timeMin, timeMax, time) {
-        // console.log(timeMin, timeMax, time)
         if (time < timeMin) { return 0.4 }
         if (time > timeMax) { return 0.1 }
         return 1;
@@ -341,6 +344,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
     var timePublish = transform_min_date(data.date, data.time);
     var last_comment_time = get_last_comment_time(data.comments);
+
+    document.getElementById('date_min').value = timePublish;
 
     document.getElementById('date_min').setAttribute('min', timePublish);
     document.getElementById('date_min').setAttribute('value', timePublish);
@@ -357,7 +362,6 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
         node.selectAll("circle")
             .attr("opacity", d => {
-                console.log("yo")
                 return filtrar_fecha(timeMin, timeMax, d.data.time)
             })
 
