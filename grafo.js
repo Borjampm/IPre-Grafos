@@ -8,7 +8,7 @@ function runCode(i) {
 }
 
 // Crear selector
-const PRIMERANOTICIA = 10; // Parametro para elegir la primera noticia que se muestra
+const PRIMERANOTICIA = 2; // Parametro para elegir la primera noticia que se muestra
 const SELECTOR = d3.select("#selector").append("select").attr("id", "selectorObject");
 
 SELECTOR.selectAll("option")
@@ -85,19 +85,19 @@ function max_level(comments) {
 
 // -------------------------------- Funciones Auxiliares ------------------------
 function transform_min_date(date, time){
-    var dateArray = date.split(' ');
-    var month = monthname_to_number(dateArray[2]);
-    var aux = dateArray[4] + "-"
+    let dateArray = date.split(' ');
+    let month = monthname_to_number(dateArray[2]);
+    let aux = dateArray[4] + "-"
         + month + "-"
         + dateArray[0] + "T"
         + time;
     return aux
 }
 function transform_max_date(date, time){
-    var dateArray = date.split(' ');
-    var month = monthname_to_number(dateArray[2]);
-    var day = 2 + parseInt(dateArray[0]);
-    var aux = dateArray[4] + "-"
+    let dateArray = date.split(' ');
+    let month = monthname_to_number(dateArray[2]);
+    let day = 2 + parseInt(dateArray[0]);
+    let aux = dateArray[4] + "-"
             + month + "-"
             + day + "T"
             + time;
@@ -105,7 +105,7 @@ function transform_max_date(date, time){
 }
 
 function monthname_to_number(month){
-    var monthsNumber = {
+    let monthsNumber = {
         'Enero': '01',
         'Febrero': '02',
         'Marzo': '03',
@@ -141,19 +141,19 @@ function get_last_comment_time(comments) {
             max = comment.time;
         }
     }
-    var max_time = new Date(max);
+    let max_time = new Date(max);
     max_time = max_time.toString().split(' ')
-    var month = monthname_to_number(max_time[1]);
-    var time = max_time[4].split(':');
-    var hour = time[0];
-    var min = parseInt(time[1]) + 1;
+    let month = monthname_to_number(max_time[1]);
+    let time = max_time[4].split(':');
+    let hour = time[0];
+    let min = parseInt(time[1]) + 1;
     min = min.toString();
     if (min.length == 1) {
         min = "0" + min;
     } else if (min.length == 0) {
         min = "00";
     }
-    var aux = max_time[3] + "-"
+    let aux = max_time[3] + "-"
         + month + "-"
         + max_time[2] + "T"
         + hour + ":"
@@ -177,37 +177,35 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
 async function dataInterval(unfiltered_data) {
     const steps = 10;
-    const time_sleep = 1000;
-// ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
-    var data = data_processed(unfiltered_data);
+    const time_sleep = 100;
+    let data = data_processed(unfiltered_data);
     if (data.comments.length == 0) {
-        document.getElementById('status').innerText = 'No hay comentarios para esta noticia';
+        document.getElementById('status').innerText = 'No hay comentarios en esta noticia';
         data.comments = create_tree_comments(data.comments);
         createGrafo(unfiltered_data, data, time_sleep);
     } else {
-        var timePublish = transform_min_date(data.date, data.time);
-        var last_comment_time = get_last_comment_time(data.comments);
-        console.log(timePublish, last_comment_time)
+        let timePublish = transform_min_date(data.date, data.time);
+        let last_comment_time = get_last_comment_time(data.comments);
+        console.log(timePublish, last_comment_time);
         document.getElementById('status').innerText = 'Generando grafo... (No cambiar de noticia)';
 
-        var min = Date.parse(timePublish+":00.000+00:00");
-        var max = Date.parse(last_comment_time);
-        var interval = (max - min) / steps;
-        for (var i = 0; i < steps+1; i++) {
-            var data = data_processed(unfiltered_data);
-            var actual_max = min + interval * i;
-            var aux = [];
-            for (comment of data.comments) {
-                if (comment.time <= actual_max) {
-                    aux.push(comment);
-                }
-            }
+        let comments = data.comments;
+        let full_depth = max_level(comments);
+        console.log(full_depth);
+        comments.sort(function(a, b) {
+            return a.time - b.time;
+        });
+
+        let aux = [];
+        await sleep(time_sleep);
+        for (comment of comments) {
+            aux.push(comment);
             data.comments = aux;
             data.comments = create_tree_comments(data.comments);
-            console.log(data.comments.length, unfiltered_data.comments.length)
-            createGrafo(unfiltered_data, data, time_sleep);
+            createGrafo(unfiltered_data, data, time_sleep, full_depth);
             await sleep(time_sleep);
         }
         document.getElementById('status').innerText = 'Grafo generado';
@@ -215,18 +213,14 @@ async function dataInterval(unfiltered_data) {
 }
 
 // ---------------------------------------------- Crear Grafo -----------------------------------
-function createGrafo(unfiltered_data, data, time_sleep) {
+function createGrafo(unfiltered_data, data, time_sleep, full_depth) {
 
     // Constantes
-    const tree_depth = max_level(unfiltered_data.comments);
     const tree_height = unfiltered_data.comments.length;
 
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     const width = WIDTH * tree_height - margin.left - margin.right;
-    const height = (HEIGTH * Math.sqrt(tree_depth + 1)) - margin.top - margin.bottom;
-
-    const COLOR = d3.scaleOrdinal(d3[`schemeTableau10`])
-        .domain([...Array(tree_depth).keys()]);
+    const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
         .domain([0, 0.5, 1]);
@@ -342,8 +336,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         return 1;
     }
 
-    var timePublish = transform_min_date(data.date, data.time);
-    var last_comment_time = get_last_comment_time(data.comments);
+    let timePublish = transform_min_date(data.date, data.time);
+    let last_comment_time = get_last_comment_time(data.comments);
 
     document.getElementById('date_min').value = timePublish;
 
