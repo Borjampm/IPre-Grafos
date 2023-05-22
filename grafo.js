@@ -122,7 +122,7 @@ async function dataInterval(unfiltered_data) {
         let min = Date.parse(timePublish+":00.000+00:00");
         let max = Date.parse(last_comment_time);
         let timePerNode = targetLength / (max - min);
-        
+
         // Tiempo fijo y acotado a un rango de máxima.
         timePerNode = Math.min(targetLength / (comments.length), maxtimePerAnimation);
         timePerNode = Math.max(timePerNode, mintimePerAnimation);
@@ -221,14 +221,6 @@ function createGrafo(unfiltered_data, data, time_sleep) {
             exit.remove()
         })
 
-    // const node = g.selectAll(".node")
-    //     .data(nodes.descendants())
-    //     .join("g")
-    //     .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
-    //     .attr("transform", d => `translate(${d.x}, ${d.y})`);
-
-
-
     const node = g.selectAll(".node")
         .data(nodes.descendants().slice(), d => d.data.id)
         .join(enter => {
@@ -244,7 +236,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
                 .attr("r", 0)
                 .style("stroke", d => d.data.likes)
                 .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
-            
+
                 // Antes de aparecer uno nuevo, espero que se actualice lo anterior
                 node_nuevo.transition()
                     .delay(updateDurationTime)
@@ -268,47 +260,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
             exit.remove()
     })
 
-
-
-    // link.transition().delay(time_sleep/2).duration(time_sleep).attr("d", linkGenFinal);
-    // node.transition().duration(time_sleep).attr("transform", d => `translate(${d.x}, ${d.y})`);
-
-
     node.raise();
-
-    radius = d3.scaleSqrt()
-        .domain([0, 10])
-        .range([5, 20])
-
-
-    // const node = g.selectAll(".node")
-    //     .data(nodes.descendants().slice(1), d => d.data.id)
-    //     .join(enter => {
-    //         const node_nuevo = enter.append("circle")
-    //             .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf") + (d.parent?' comentario':' titulo'))
-    //             .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`)
-    //             // .attr("class", d => {
-    //             //     return d.parent?'comentario':'titulo'})
-    //             .attr("r", 15)
-    //             .style("stroke", d => d.data.likes)
-    //             .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
-    //         return node_nuevo
-    //     }, update => {
-    //         return update
-    //     }, exit => {
-    //         exit.remove()
-    // })
-
-    // link.transition().duration(time_sleep).attr("d", linkGen);
-    // node.transition().duration(time_sleep).attr("transform", d => `translate(${d.x}, ${d.y})`);
-    // node.raise();
-
-    // node.append("circle")
-    //     .attr("class", d => {
-    //         return d.parent?'comentario':'titulo'})
-    //     .attr("r", d => 15)
-    //     .style("stroke", d => d.data.likes)
-    //     .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
     function filtrar_fecha(timeMin, timeMax, time) {
@@ -399,4 +351,16 @@ function createGrafo(unfiltered_data, data, time_sleep) {
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY + -10) + "px")
         })
+
+    // ---------------------------------------------- Zoom ----------------------------------------------
+    function handleZoom(e) {
+        d3.select("svg g")
+        .attr("transform", e.transform);
+    }
+    let zoom = d3.zoom()
+        .on("zoom", handleZoom);
+
+    d3.select("svg")
+        .call(zoom);
+
 }
