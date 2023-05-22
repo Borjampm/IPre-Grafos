@@ -179,8 +179,9 @@ function sleep(ms) {
 
   // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
 async function dataInterval(unfiltered_data) {
-    const steps = 10;
-    const time_sleep = 100;
+    const SEGUNDOS = 5;
+    const targetLength = SEGUNDOS * 1000; // Tiempo que se quiere que dure la animacion
+
     let data = data_processed(unfiltered_data);
     if (data.comments.length == 0) {
         document.getElementById('status').innerText = 'No hay comentarios en esta noticia';
@@ -197,14 +198,33 @@ async function dataInterval(unfiltered_data) {
             return a.time - b.time;
         });
 
+        let min = Date.parse(timePublish+":00.000+00:00");
+        let max = Date.parse(last_comment_time);
+        let timePerNode = targetLength / (max - min);
+
         let aux = [];
-        await sleep(time_sleep);
+        let time_sleep = 0;
+        data.comments = aux;
+        data.comments = create_tree_comments(data.comments);
+        createGrafo(unfiltered_data, data, time_sleep);
         for (comment of comments) {
-            aux.push(comment);
-            data.comments = aux;
-            data.comments = create_tree_comments(data.comments);
-            createGrafo(unfiltered_data, data, time_sleep);
-            await sleep(time_sleep);
+            if (aux.length == 0) {
+                time_sleep = timePerNode * (comment.time - min);
+                console.log(time_sleep)
+                aux.push(comment);
+                data.comments = aux;
+                data.comments = create_tree_comments(data.comments);
+                await sleep(time_sleep);
+                createGrafo(unfiltered_data, data, time_sleep);
+            } else {
+                time_sleep = timePerNode * (comment.time - aux[aux.length - 1].time);
+                console.log(time_sleep)
+                aux.push(comment);
+                data.comments = aux;
+                data.comments = create_tree_comments(data.comments);
+                await sleep(time_sleep);
+                createGrafo(unfiltered_data, data, time_sleep);
+            }
         }
         document.getElementById('status').innerText = 'Grafo generado';
     }
