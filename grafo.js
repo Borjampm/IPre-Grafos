@@ -42,8 +42,8 @@ function data_processed(d) {
 }
 
 function create_tree_comments(comments) {
-    new_comments = [];
-    for (comment of comments) {
+    let new_comments = [];
+    for (let comment of comments) {
         if (comment.level == 0) {
             new_comments.push(comment_processed(comment));
         } else {
@@ -73,92 +73,13 @@ function comment_processed(c) {
 }
 
 function max_level(comments) {
-    max = 0;
-    for (comment of comments) {
+    let max = 0;
+    for (let comment of comments) {
         if (max < comment.level) {
             max = comment.level;
         }
     }
     return max
-}
-
-
-// -------------------------------- Funciones Auxiliares ------------------------
-function transform_min_date(date, time){
-    let dateArray = date.split(' ');
-    let month = monthname_to_number(dateArray[2]);
-    let aux = dateArray[4] + "-"
-        + month + "-"
-        + dateArray[0] + "T"
-        + time;
-    return aux
-}
-function transform_max_date(date, time){
-    let dateArray = date.split(' ');
-    let month = monthname_to_number(dateArray[2]);
-    let day = 2 + parseInt(dateArray[0]);
-    let aux = dateArray[4] + "-"
-            + month + "-"
-            + day + "T"
-            + time;
-    return aux
-}
-
-function monthname_to_number(month){
-    let monthsNumber = {
-        'Enero': '01',
-        'Febrero': '02',
-        'Marzo': '03',
-        'Abril': '04',
-        'Mayo': '05',
-        'Junio': '06',
-        'Julio': '07',
-        'Agosto': '08',
-        'Septiembre': '09',
-        'Octubre': '10',
-        'Noviembre': '11',
-        'Diciembre': '12',
-        'Jan': '01',
-        'Feb': '02',
-        'Mar': '03',
-        'Apr': '04',
-        'May': '05',
-        'Jun': '06',
-        'Jul': '07',
-        'Agu': '08',
-        'Sep': '09',
-        'Oct': '10',
-        'Nov': '11',
-        'Dec': '12'
-    };
-    return monthsNumber[month]
-}
-
-function get_last_comment_time(comments) {
-    max = 0;
-    for (comment of comments) {
-        if (max < comment.time) {
-            max = comment.time;
-        }
-    }
-    let max_time = new Date(max);
-    max_time = max_time.toString().split(' ')
-    let month = monthname_to_number(max_time[1]);
-    let time = max_time[4].split(':');
-    let hour = time[0];
-    let min = parseInt(time[1]) + 1;
-    min = min.toString();
-    if (min.length == 1) {
-        min = "0" + min;
-    } else if (min.length == 0) {
-        min = "00";
-    }
-    let aux = max_time[3] + "-"
-        + month + "-"
-        + max_time[2] + "T"
-        + hour + ":"
-        + min;
-    return aux
 }
 
 // Parametros
@@ -180,7 +101,9 @@ function sleep(ms) {
   // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
 async function dataInterval(unfiltered_data) {
     const SEGUNDOS = 5;
-    const targetLength = SEGUNDOS * 1000; // Tiempo que se quiere que dure la animacion
+    const targetLength = SEGUNDOS * 1000;   // Tiempo que se quiere que dure la animacion
+    const maxtimePerAnimation = 800;       // Tiempo máximo a utilizar
+    const mintimePerAnimation = 10;       // Tiempo mínimo a utilizar
 
     let data = data_processed(unfiltered_data);
     if (data.comments.length == 0) {
@@ -194,22 +117,25 @@ async function dataInterval(unfiltered_data) {
         document.getElementById('status').innerText = 'Generando grafo... (No cambiar de noticia)';
 
         let comments = data.comments;
-        comments.sort(function(a, b) {
-            return a.time - b.time;
-        });
+        comments.sort((a, b) => a.time - b.time);
 
         let min = Date.parse(timePublish+":00.000+00:00");
         let max = Date.parse(last_comment_time);
         let timePerNode = targetLength / (max - min);
+        
+        // Tiempo fijo y acotado a un rango de máxima.
+        timePerNode = Math.min(targetLength / (comments.length), maxtimePerAnimation);
+        timePerNode = Math.max(timePerNode, mintimePerAnimation);
 
         let aux = [];
         let time_sleep = 0;
         data.comments = aux;
         data.comments = create_tree_comments(data.comments);
         createGrafo(unfiltered_data, data, time_sleep);
-        for (comment of comments) {
+        for (let comment of comments) {
             if (aux.length == 0) {
-                time_sleep = timePerNode * (comment.time - min);
+                // time_sleep = timePerNode * (comment.time - min);
+                time_sleep = timePerNode;
                 console.log(time_sleep)
                 aux.push(comment);
                 data.comments = aux;
@@ -217,7 +143,8 @@ async function dataInterval(unfiltered_data) {
                 await sleep(time_sleep);
                 createGrafo(unfiltered_data, data, time_sleep);
             } else {
-                time_sleep = timePerNode * (comment.time - aux[aux.length - 1].time);
+                // time_sleep = timePerNode * (comment.time - aux[aux.length - 1].time);
+                time_sleep = timePerNode;
                 console.log(time_sleep)
                 aux.push(comment);
                 data.comments = aux;
@@ -232,13 +159,19 @@ async function dataInterval(unfiltered_data) {
 
 // ---------------------------------------------- Crear Grafo -----------------------------------
 function createGrafo(unfiltered_data, data, time_sleep) {
-
     // Constantes
     const tree_height = unfiltered_data.comments.length;
     const full_depth = max_level(unfiltered_data.comments);
+    const circleRadius = 15;
+
+    // Tiempo que toma actualizar el grafo
+    const updateDurationTime = time_sleep/3
+    // Tiempo que toma agregar nuevos elementos
+    const enterDurationTime = time_sleep - updateDurationTime;
 
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
-    const width = WIDTH * tree_height - margin.left - margin.right;
+    // Ajustar el ancho para que mínimo sea de 300 pixeles
+    const width = Math.max(WIDTH * tree_height - margin.left - margin.right, 300);
     const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
@@ -255,10 +188,11 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const g = SVG.select("g")
         .attr("transform", `translate(${margin.top}, ${margin.left})`);
 
-    let linkGen = d3.linkVertical()
-        .source(d => [d.x, d.y])
-        .target(d => [d.parent.x, d.parent.y]);
-    let linkGen2 = d3.linkVertical()
+    let linkGenFinal = d3.linkVertical()
+        .source(d => [d.parent.x, d.parent.y + circleRadius])
+        .target(d => [d.x, d.y - circleRadius]);
+
+    let linkGenInitial = d3.linkVertical()
         .source(d => [d.parent.x, d.parent.y])
         .target(d => [d.parent.x, d.parent.y]);
 
@@ -268,9 +202,20 @@ function createGrafo(unfiltered_data, data, time_sleep) {
             const dato_nuevo = enter.append("path")
                 .attr("class", "link")
                 .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
-                .attr("d", linkGen2)
+                .attr("d", linkGenInitial)
+
+            // Antes de aparecer uno nuevo, espero que se actualice lo anterior
+            dato_nuevo.transition()
+                .delay(updateDurationTime)
+                .duration(enterDurationTime)
+                .attr("d", linkGenFinal);
+
             return dato_nuevo
         }, update => {
+            update.transition()
+                .duration(updateDurationTime)
+                .attr("d", linkGenFinal);
+
             return update
         }, exit => {
             exit.remove()
@@ -296,11 +241,28 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
             node_nuevo.append("circle")
                 .attr("class", d => {return d.parent?'comentario':'titulo'})
-                .attr("r", 15)
+                .attr("r", 0)
                 .style("stroke", d => d.data.likes)
                 .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
-            return node_nuevo
-        }, update => {
+            
+                // Antes de aparecer uno nuevo, espero que se actualice lo anterior
+                node_nuevo.transition()
+                    .delay(updateDurationTime)
+                    .duration(enterDurationTime)
+                    .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+                node_nuevo.select("circle")
+                    .transition()
+                    .delay(updateDurationTime)
+                    .duration(enterDurationTime)
+                    .attr("r", circleRadius);
+
+                return node_nuevo
+            }, update => {
+                update.transition()
+                    .duration(updateDurationTime)
+                    .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
             return update
         }, exit => {
             exit.remove()
@@ -308,8 +270,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
 
 
-    link.transition().duration(time_sleep).attr("d", linkGen);
-    node.transition().duration(time_sleep).attr("transform", d => `translate(${d.x}, ${d.y})`);
+    // link.transition().delay(time_sleep/2).duration(time_sleep).attr("d", linkGenFinal);
+    // node.transition().duration(time_sleep).attr("transform", d => `translate(${d.x}, ${d.y})`);
 
 
     node.raise();
