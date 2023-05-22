@@ -193,8 +193,6 @@ async function dataInterval(unfiltered_data) {
         document.getElementById('status').innerText = 'Generando grafo... (No cambiar de noticia)';
 
         let comments = data.comments;
-        let full_depth = max_level(comments);
-        console.log(full_depth);
         comments.sort(function(a, b) {
             return a.time - b.time;
         });
@@ -205,7 +203,7 @@ async function dataInterval(unfiltered_data) {
             aux.push(comment);
             data.comments = aux;
             data.comments = create_tree_comments(data.comments);
-            createGrafo(unfiltered_data, data, time_sleep, full_depth);
+            createGrafo(unfiltered_data, data, time_sleep);
             await sleep(time_sleep);
         }
         document.getElementById('status').innerText = 'Grafo generado';
@@ -213,10 +211,11 @@ async function dataInterval(unfiltered_data) {
 }
 
 // ---------------------------------------------- Crear Grafo -----------------------------------
-function createGrafo(unfiltered_data, data, time_sleep, full_depth) {
+function createGrafo(unfiltered_data, data, time_sleep) {
 
     // Constantes
     const tree_height = unfiltered_data.comments.length;
+    const full_depth = max_level(unfiltered_data.comments);
 
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     const width = WIDTH * tree_height - margin.left - margin.right;
