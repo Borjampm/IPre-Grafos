@@ -83,8 +83,6 @@ function max_level(comments) {
 }
 
 // Parametros
-const HEIGTH = 200;
-const WIDTH = 40;
 const SVG = d3.select("#vis-1").append("svg");
 SVG.append("g")
 let Tooltip = d3.select("#vis-1")
@@ -169,10 +167,15 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     // Tiempo que toma agregar nuevos elementos
     const enterDurationTime = time_sleep - updateDurationTime;
 
+    const HEIGTH = 500;
+    const WIDTH = 1000;
+
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     // Ajustar el ancho para que mínimo sea de 300 pixeles
-    const width = Math.max(WIDTH * tree_height - margin.left - margin.right, 300);
-    const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
+    const width = Math.max(WIDTH - margin.left - margin.right, 300);
+    const height = HEIGTH - margin.top - margin.bottom;
+    // const width = Math.max(WIDTH * tree_height - margin.left - margin.right, 300);
+    // const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
         .domain([0, 0.5, 1]);
@@ -344,7 +347,6 @@ function createGrafo(unfiltered_data, data, time_sleep) {
                     "Autor: " + d.data.creator + "<br>" +
                     "Comentario: " + d.data.text + "<br>" +
                     "Subido el: " + time + "<br>" +
-                    "Subido el: " + d.data.time + "<br>" +
                     "Cantidad de Likes: " + d.data.likes + "<br>" +
                     "Cantidad de Dislikes: " + d.data.dislikes + "<br>"
                 )
