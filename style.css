@@ -10,6 +10,10 @@ body {
   text-align: center;
 }
 
+#vis-1{
+  border-style: solid;
+}
+
 h2 {
   font-size: 40px;
   margin: 0px;

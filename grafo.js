@@ -168,12 +168,10 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const enterDurationTime = time_sleep - updateDurationTime;
 
     const HEIGTH = 500;
-    const WIDTH = 1000;
+    const WIDTH = 2000;
 
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     // Ajustar el ancho para que mínimo sea de 300 pixeles
-    const width = Math.max(WIDTH - margin.left - margin.right, 300);
-    const height = HEIGTH - margin.top - margin.bottom;
     // const width = Math.max(WIDTH * tree_height - margin.left - margin.right, 300);
     // const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
 
@@ -182,11 +180,13 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
-    const treemap = d3.tree().size([width, height]);
+    const treemap = d3.tree().size([WIDTH, HEIGTH]);
     nodes = treemap(nodes);
     SVG
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", 100+height + margin.top + margin.bottom)
+        .attr("width", "100%")
+        .attr("height", "500")
+        .attr("viewBox", `-50 0 ${WIDTH + 200} ${HEIGTH}`)
+        .attr("border", "1px solid black")
 
     const g = SVG.select("g")
         .attr("transform", `translate(${margin.top}, ${margin.left})`);
@@ -319,8 +319,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
             Tooltip
                 .html(
                     "<h1>" + d.data.title + "</h1>" +
-                    "<h2>" + d.data.date + ' | ' + 'Redactado por ' + d.data.creator + "</h2>" +
-                    "<p>"  + d.data.body + "</p>"
+                    "<h2>" + d.data.date + ' | ' + 'Redactado por ' + d.data.creator + "</h2>"
+                    // + "<p>"  + d.data.body + "</p>"
                 )
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY + -10) + "px")
