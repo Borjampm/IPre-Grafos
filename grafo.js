@@ -90,6 +90,19 @@ let Tooltip = d3.select("#vis-1")
 .style("opacity", 0)
 .attr("class", "tooltip")
 
+const ZOOM = d3.zoom()
+    .on("zoom", handleZoom);
+function handleZoom(e) {
+    d3.select("svg g")
+    .attr("transform", e.transform);
+}
+const resetZOOM = d3.zoom()
+    .on("zoom", resetZoom);
+function resetZoom(e) {
+    d3.select("svg g")
+        .attr("transform", "translate(0,0) scale(1)");
+    }
+
 runCode(PRIMERANOTICIA);
 
 function sleep(ms) {
@@ -104,6 +117,7 @@ async function dataInterval(unfiltered_data) {
     const mintimePerAnimation = 10;       // Tiempo mínimo a utilizar
 
     let data = data_processed(unfiltered_data);
+    let time_sleep = 0;
     if (data.comments.length == 0) {
         document.getElementById('status').innerText = 'No hay comentarios en esta noticia';
         data.comments = create_tree_comments(data.comments);
@@ -126,7 +140,6 @@ async function dataInterval(unfiltered_data) {
         timePerNode = Math.max(timePerNode, mintimePerAnimation);
 
         let aux = [];
-        let time_sleep = 0;
         data.comments = aux;
         data.comments = create_tree_comments(data.comments);
         createGrafo(unfiltered_data, data, time_sleep);
@@ -152,6 +165,8 @@ async function dataInterval(unfiltered_data) {
             }
         }
         document.getElementById('status').innerText = 'Grafo generado';
+        d3.select("svg")
+            .call(ZOOM);
     }
 }
 
@@ -355,14 +370,10 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         })
 
     // ---------------------------------------------- Zoom ----------------------------------------------
-    function handleZoom(e) {
-        d3.select("svg g")
-        .attr("transform", e.transform);
-    }
-    let zoom = d3.zoom()
-        .on("zoom", handleZoom);
-
+    d3.select("svg g")
+        .attr("transform", "translate(0,0) scale(1)");
     d3.select("svg")
-        .call(zoom);
+        .call(resetZOOM)
+        .call(ZOOM.transform, d3.zoomIdentity);
 
 }
