@@ -187,7 +187,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     // Ajustar el ancho para que mínimo sea de 300 pixeles
-    // const width = Math.max(WIDTH * tree_height - margin.left - margin.right, 300);
+    const width = Math.max(circleRadius * tree_height * 2.1, WIDTH);
     // const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
@@ -195,12 +195,12 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
-    const treemap = d3.tree().size([WIDTH, HEIGTH]);
+    const treemap = d3.tree().size([width, HEIGTH]);
     nodes = treemap(nodes);
     SVG
         .attr("width", "100%")
         .attr("height", "500")
-        .attr("viewBox", `-50 0 ${WIDTH + 200} ${HEIGTH}`)
+        .attr("viewBox", `-50 0 ${width + 200} ${HEIGTH}`)
         .attr("border", "1px solid black")
 
     const g = SVG.select("g")
@@ -282,8 +282,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
     function filtrar_fecha(timeMin, timeMax, time) {
-        if (time < timeMin) { return 0.4 }
-        if (time > timeMax) { return 0.1 }
+        if (time < timeMin) { return 0.3 }
+        if (time > timeMax) { return 0.05 }
         return 1;
     }
 
