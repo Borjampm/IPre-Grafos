@@ -377,4 +377,15 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         .call(resetZOOM)
         .call(ZOOM.transform, d3.zoomIdentity);
 
+    d3.select("#resetZoomButton").on("click", function (d) {
+        d3.select("svg")
+            .call(resetZOOM)
+            .call(ZOOM.transform, d3.zoomIdentity);
+        d3.select("svg")
+            .call(ZOOM);
+    })
+
+
+
+
 }
