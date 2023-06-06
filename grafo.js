@@ -188,19 +188,20 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     // Ajustar el ancho para que mínimo sea de 300 pixeles
     const width = Math.max(circleRadius * tree_height * 2.1, WIDTH);
-    // const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
+    const height = Math.max(full_depth * 500 , HEIGTH);
+    // const height = 1000;
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
         .domain([0, 0.5, 1]);
     // ------------------------------------------- Crear Grafo -------------------------------------------
     let nodes = d3.hierarchy(data, d => d.comments);
 
-    const treemap = d3.tree().size([width, HEIGTH]);
+    const treemap = d3.tree().size([width, height]);
     nodes = treemap(nodes);
     SVG
         .attr("width", "100%")
         .attr("height", "500")
-        .attr("viewBox", `-50 0 ${width + 200} ${HEIGTH}`)
+        .attr("viewBox", `-50 -50 ${width + 200} ${height + 100}`)
         .attr("border", "1px solid black")
 
     const g = SVG.select("g")
@@ -219,7 +220,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         .join(enter => {
             const dato_nuevo = enter.append("path")
                 .attr("class", "link")
-                .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
+                .style("stroke", d => colorScale((d.data.dislikes + d.data.likes) == 0 ? 0.5 : d.data.likes/(d.data.likes + d.data.dislikes)))
                 .attr("d", linkGenInitial)
 
             // Antes de aparecer uno nuevo, espero que se actualice lo anterior
@@ -253,7 +254,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
                 .attr("class", d => {return d.parent?'comentario':'titulo'})
                 .attr("r", 0)
                 .style("stroke", d => d.data.likes)
-                .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
+                .style("fill", d => colorScale((d.data.dislikes + d.data.likes) == 0 ? 0.5 : d.data.likes/(d.data.likes + d.data.dislikes)));
 
                 // Antes de aparecer uno nuevo, espero que se actualice lo anterior
                 node_nuevo.transition()
