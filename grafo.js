@@ -8,7 +8,7 @@ function runCode(i) {
 }
 
 // Crear selector
-const PRIMERANOTICIA = 2; // Parametro para elegir la primera noticia que se muestra
+const PRIMERANOTICIA = 61; // Parametro para elegir la primera noticia que se muestra
 const SELECTOR = d3.select("#selector").append("select").attr("id", "selectorObject");
 
 SELECTOR.selectAll("option")
@@ -84,8 +84,6 @@ function max_level(comments) {
 
 // Parametros
 const SVG = d3.select("#vis-1").append("svg");
-SVG.append("g")
-const SVG2 = d3.select("#vis-2").append("svg");
 SVG.append("g")
 let Tooltip = d3.select("#vis-1")
 .append("div")
@@ -172,52 +170,63 @@ async function dataInterval(unfiltered_data) {
 
 // ---------------------------------------------- Crear Histograma -----------------------------------
 function createHistogram(unfiltered_data) {
-    // set the dimensions and margins of the graph
-    let margin = {top: 10, right: 30, bottom: 30, left: 40},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
 
     let data = data_processed(unfiltered_data);
     let timePublish = transform_min_date(data.date, data.time);
     let last_comment_time = get_last_comment_time(data.comments);
     let minDate = Date.parse(timePublish+":00.000+00:00");
     let maxDate = Date.parse(last_comment_time);
-    console.log(minDate, maxDate);
+        // set the dimensions and margins of the graph
+    const margin = {top: 10, right: 30, bottom: 30, left: 40},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
-    // X axis: scale and draw:
-    let x = d3.scaleLinear()
-        .domain([minDate, maxDate])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-        .range([0, width]);
-    SVG2.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+    // append the svg object to the body of the page
+    const SVG2 = d3.select("#vis-2")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            `translate(${margin.left},${margin.top})`);
+        histograma(data.comments, minDate, maxDate)
 
-    // set the parameters for the histogram
-    let histogram = d3.histogram()
-        .value(function(d) { return 1; })   // I need to give the vector of value
-        .domain(x.domain())  // then the domain of the graphic
-        .thresholds(x.ticks(10)); // then the numbers of bins
+    function histograma(data, minDate, maxDate) {
 
-    // And apply this function to data to get the bins
-    let bins = histogram(data);
+        const x = d3.scaleLinear()
+            .domain([minDate, maxDate])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+            .range([0, width]);
+        SVG2.append("g")
+            .attr("transform", `translate(0, ${height})`)
+            .call(d3.axisBottom(x));
 
-    // Y axis: scale and draw:
-    let y = d3.scaleLinear()
+        // set the parameters for the histogram
+        const histogram = d3.histogram()
+            .value(function(d) { console.log(d); return d.time; })   // I need to give the vector of value
+            .domain(x.domain())  // then the domain of the graphic
+            .thresholds(x.ticks(20)); // then the numbers of bins
+
+        // And apply this function to data to get the bins
+        const bins = histogram(data);
+
+        // Y axis: scale and draw:
+        const y = d3.scaleLinear()
         .range([height, 0]);
         y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
-    SVG2.append("g")
+        SVG2.append("g")
         .call(d3.axisLeft(y));
 
-    // // append the bar rectangles to the svg element
-    SVG2.selectAll("rect")
+        // append the bar rectangles to the svg element
+        SVG2.selectAll("rect")
         .data(bins)
-        .enter()
-        .append("rect")
+        .join("rect")
             .attr("x", 1)
-            .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+        .attr("transform", function(d) { return `translate(${x(d.x0)} , ${y(d.length)})`})
+            .attr("width", function(d) { return x(d.x1) - x(d.x0)})
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#69b3a2")
+
+        };
 
 }
 
