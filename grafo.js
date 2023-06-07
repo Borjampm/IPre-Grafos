@@ -441,6 +441,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     d3.select("#resetZoomButton").on("click", function (d) {
         d3.select("svg")
             .call(resetZOOM)
+            .transition()
+            .duration(500)
             .call(ZOOM.transform, d3.zoomIdentity);
         d3.select("svg")
             .call(ZOOM);
