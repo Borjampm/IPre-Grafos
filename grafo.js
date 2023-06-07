@@ -379,7 +379,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
 
     // ---------------------------------------------- Tooltip ----------------------------------------------
-    d3.selectAll(".titulo")
+    node.select(".titulo")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
                 .style("display", "none")
@@ -433,7 +433,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
     // ---------------------------------------------- Zoom ----------------------------------------------
     d3.select("svg g")
-        .attr("transform", "translate(0,0) scale(1)");
+        .attr("transform", "translate(0,0) scale(1)");  
     d3.select("svg")
         .call(resetZOOM)
         .call(ZOOM.transform, d3.zoomIdentity);
