@@ -8,7 +8,7 @@ function runCode(i) {
 }
 
 // Crear selector
-const PRIMERANOTICIA = 1; // Parametro para elegir la primera noticia que se muestra
+const PRIMERANOTICIA = 10; // Parametro para elegir la primera noticia que se muestra
 const SELECTOR = d3.select("#selector").append("select").attr("id", "selectorObject");
 
 SELECTOR.selectAll("option")
@@ -307,7 +307,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         .join(enter => {
             const node_nuevo = enter.append("g")
                 .attr("id", d => d.data.id)
-                .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf"))
+                .attr("class", d => "node" + (d.comments ? " node--internal" : " node--leaf") + (d.parent ? ' g-comentario' : ' g-titulo'))
                 .attr("transform", d => d.parent == null ? `translate(${d.x}, ${d.y})` : `translate(${d.parent.x}, ${d.parent.y})`)
                 .attr("x_original", d => d.x)
                 .attr("y_original", d => d.y);
@@ -379,7 +379,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
 
     // ---------------------------------------------- Tooltip ----------------------------------------------
-    d3.selectAll(".titulo")
+    d3.selectAll(".g-titulo")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
                 .style("display", "none")
