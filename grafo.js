@@ -8,7 +8,7 @@ function runCode(i) {
 }
 
 // Crear selector
-const PRIMERANOTICIA = 1; // Parametro para elegir la primera noticia que se muestra
+const PRIMERANOTICIA = 2; // Parametro para elegir la primera noticia que se muestra
 const SELECTOR = d3.select("#selector").append("select").attr("id", "selectorObject");
 
 SELECTOR.selectAll("option")
@@ -94,13 +94,13 @@ let Tooltip = d3.select("#vis-1")
 const ZOOM = d3.zoom()
     .on("zoom", handleZoom);
 function handleZoom(e) {
-    d3.select("svg g")
+    SVG.select("g")
         .attr("transform", e.transform);
 }
 const resetZOOM = d3.zoom()
     .on("zoom", resetZoom);
 function resetZoom(e) {
-    d3.select("svg g")
+    SVG.select("g")
         .attr("transform", "translate(0,0) scale(1)");
 }
 
@@ -164,8 +164,7 @@ async function dataInterval(unfiltered_data) {
             }
         }
         document.getElementById('status').innerText = 'Grafo generado';
-        d3.select("svg")
-            .call(ZOOM);
+        SVG.call(ZOOM);
     }
 }
 
@@ -432,20 +431,17 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         })
 
     // ---------------------------------------------- Zoom ----------------------------------------------
-    d3.select("svg g")
+    SVG.select("g")
         .attr("transform", "translate(0,0) scale(1)");
-    d3.select("svg")
-        .call(resetZOOM)
+    SVG.call(resetZOOM)
         .call(ZOOM.transform, d3.zoomIdentity);
 
     d3.select("#resetZoomButton").on("click", function (d) {
-        d3.select("svg")
-            .call(resetZOOM)
+        SVG.call(resetZOOM)
             .transition()
             .duration(500)
             .call(ZOOM.transform, d3.zoomIdentity);
-        d3.select("svg")
-            .call(ZOOM);
+        SVG.call(ZOOM);
     })
 
 

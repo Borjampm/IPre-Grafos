@@ -22,6 +22,7 @@ body {
 }
 #vis-2{
   grid-area: vis-2;
+  padding: 5%;
 }
 
 h2 {
