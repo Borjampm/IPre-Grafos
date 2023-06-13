@@ -9,36 +9,34 @@
     <title>Index</title>
 </head>
 <body >
-    <div class="container">
-        <h2>IPre Grafos</h2>
-        <div class="wrapper">
-            <h3>Filtro Fechas</h3>
-            <div class = "filtro">
-                <label for="date_min"> Fecha Inicio </label>
-                <input type="datetime-local" id="date_min"
-                name="date_min">
-                <label for="date_min"> Minutos Pasados </label>
-                <input type="number" id="date_interval"
-                name="date_interval">
-                <button id="selectButton">Filtrar</button>
+    <div class="top">
+        <div id="container">
+            <h2>IPre Grafos</h2>
+            <div class="wrapper">
+                <h3>Filtro Fechas</h3>
+                <div class = "filtro">
+                    <label for="date_min"> Fecha Inicio </label>
+                    <input type="datetime-local" id="date_min"
+                    name="date_min">
+                    <label for="date_min"> Minutos Pasados </label>
+                    <input type="number" id="date_interval"
+                    name="date_interval">
+                    <button id="selectButton">Filtrar</button>
+                </div>
+                <h3>Selector Noticia</h3>
+                <div id="selector"></div>
+                <button id="resetZoomButton">Reiniciar Zoom</button>
             </div>
-            <h3>Selector Noticia</h3>
-            <div id="selector"></div>
-            <button id="resetZoomButton">Reiniciar Zoom</button>
+            <div class="status">
+                <p id="status"> </p>
+            </div>
         </div>
-        <div class="status">
-            <p id="status"> </p>
+        <div id="vis-2">
         </div>
     </div>
-
     <div id="vis-1">
         <script src='utils.js' charset='utf-8'></script>
         <script src='grafo.js' charset='utf-8'></script>
-    </div>
-    <div style="height: 200px;">
-
-    </div>
-    <div id="vis-2">
     </div>
 </body>
 </html>

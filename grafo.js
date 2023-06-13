@@ -178,7 +178,7 @@ function createHistogram(unfiltered_data) {
     let minDate = Date.parse(timePublish + ":00.000+00:00");
     let maxDate = Date.parse(last_comment_time);
     // set the dimensions and margins of the graph
-    const margin = { top: 10, right: 30, bottom: 30, left: 40 },
+    const margin = { top: 10, right: 50, bottom: 30, left: 50 },
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
@@ -200,7 +200,7 @@ function createHistogram(unfiltered_data) {
 
         SVG2.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x).tickValues([minDate, maxDate]).tickFormat(d3.timeFormat("%d-%m-%Y %H:%M:%S")));
 
         // set the parameters for the histogram
         const histogram = d3.histogram()
@@ -433,7 +433,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
     // ---------------------------------------------- Zoom ----------------------------------------------
     d3.select("svg g")
-        .attr("transform", "translate(0,0) scale(1)");  
+        .attr("transform", "translate(0,0) scale(1)");
     d3.select("svg")
         .call(resetZOOM)
         .call(ZOOM.transform, d3.zoomIdentity);
