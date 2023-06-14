@@ -104,6 +104,22 @@ function resetZoom(e) {
         .attr("transform", "translate(0,0) scale(1)");
 }
 
+// Segunda vis
+// set the dimensions and margins of the graph
+const marginHist = { top: 10, right: 50, bottom: 30, left: 50 }
+const widthHist = 460 - marginHist.left - marginHist.right;
+const heightHist = 400 - marginHist.top - marginHist.bottom;
+
+// append the svg object to the body of the page
+const SVG2 = d3.select("#vis-2")
+    .append("svg")
+    .attr("width", widthHist + marginHist.left + marginHist.right)
+    .attr("height", heightHist + marginHist.top + marginHist.bottom)
+    .append("g")
+    .attr("transform", `translate(${marginHist.left},${marginHist.top})`);
+SVG2.append("g").attr("id", "axis-x");
+SVG2.append("g").attr("id", "axis-y");
+
 runCode(PRIMERANOTICIA);
 
 function sleep(ms) {
@@ -116,6 +132,9 @@ async function dataInterval(unfiltered_data) {
     const targetLength = SEGUNDOS * 1000;   // Tiempo que se quiere que dure la animacion
     const maxtimePerAnimation = 800;       // Tiempo máximo a utilizar
     const mintimePerAnimation = 10;       // Tiempo mínimo a utilizar
+
+
+    // TODO: Reinicar número de "tiempo"
 
     let data = data_processed(unfiltered_data);
     let time_sleep = 0;
@@ -176,29 +195,19 @@ function createHistogram(unfiltered_data) {
     let last_comment_time = get_last_comment_time(data.comments);
     let minDate = Date.parse(timePublish + ":00.000+00:00");
     let maxDate = Date.parse(last_comment_time);
-    // set the dimensions and margins of the graph
-    const margin = { top: 10, right: 50, bottom: 30, left: 50 },
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
 
-    // append the svg object to the body of the page
-    const SVG2 = d3.select("#vis-2")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
 
     histograma(data.comments, minDate, maxDate)
 
     function histograma(data, minDate, maxDate) {
+        SVG2.select("#brush").remove()
 
         const x = d3.scaleLinear()
             .domain([minDate, maxDate])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-            .range([0, width]);
+            .range([0, widthHist]);
 
-        SVG2.append("g")
-            .attr("transform", `translate(0, ${height})`)
+        SVG2.select("#axis-x")
+            .attr("transform", `translate(0, ${heightHist})`)
             .call(d3.axisBottom(x).tickValues([minDate, maxDate]).tickFormat(d => new Date(d).toUTCString()));
 
         // set the parameters for the histogram
@@ -212,10 +221,10 @@ function createHistogram(unfiltered_data) {
 
         // Y axis: scale and draw:
         const y = d3.scaleLinear()
-            .range([height, 0]);
+            .range([heightHist, 0]);
         y.domain([0, d3.max(bins, function (d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
-        SVG2.append("g")
-            .call(d3.axisLeft(y));
+
+        SVG2.select("#axis-y").call(d3.axisLeft(y));
 
         // append the bar rectangles to the svg element
         SVG2.selectAll("rect")
@@ -224,27 +233,28 @@ function createHistogram(unfiltered_data) {
             .attr("x", 1)
             .attr("transform", function (d) { return `translate(${x(d.x0)} , ${y(d.length)})` })
             .attr("width", function (d) { return x(d.x1) - x(d.x0) })
-            .attr("height", function (d) { return height - y(d.length); })
+            .attr("height", function (d) { return heightHist - y(d.length); })
             .style("fill", "rgb(49, 54, 149)")
 
         // ----------------------------------------------- Brush -----------------------------------------------
 
         let brush = d3.brushX()
-            .extent( [ [0,0], [width,height] ] )
+            .extent([[0, 0], [widthHist, heightHist]])
             .on("end", handleBrush);
-        SVG2.call(brush);
+
+        SVG2.append("g").attr("id", "brush").call(brush);
 
         let brushExtent;
 
-        function handleBrush(e){
+        function handleBrush(e) {
             brushExtent = e.selection;
-                if (brushExtent != null) {
+            if (brushExtent != null) {
                 let min = Math.round(x.invert(brushExtent[0]));
                 let max = Math.round(x.invert(brushExtent[1]));
 
                 let minDate = new Date(min).toUTCString();
                 minDate = dateToFilterFormat(minDate);
-                let interval = Math.round((max - min)/ 60000);
+                let interval = Math.round((max - min) / 60000);
 
                 let timeFilter = document.getElementById('date_min');
                 let timeInterval = document.getElementById('date_interval');
@@ -252,10 +262,8 @@ function createHistogram(unfiltered_data) {
                 timeFilter.value = minDate;
                 timeInterval.value = interval;
 
-                let filterButton = document.getElementById('selectButton');
-                let click = new Event('click');
-                filterButton.dispatchEvent(click);
-                }
+                d3.select("#selectButton").on("click")();
+            }
         }
 
     };
@@ -390,6 +398,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     document.getElementById('date_min').setAttribute('max', last_comment_time);
 
     d3.select("#selectButton").on("click", function (d) {
+        console.log(1)
         let timeMin = document.getElementById('date_min').value + ":00.000+00:00";
         let timeInterval = document.getElementById('date_interval').value;
 
