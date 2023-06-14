@@ -199,11 +199,11 @@ function createHistogram(unfiltered_data) {
 
         SVG2.append("g")
             .attr("transform", `translate(0, ${height})`)
-            .call(d3.axisBottom(x).tickValues([minDate, maxDate]).tickFormat(d3.timeFormat("%d-%m-%Y %H:%M:%S")));
+            .call(d3.axisBottom(x).tickValues([minDate, maxDate]).tickFormat(d => new Date(d).toUTCString()));
 
         // set the parameters for the histogram
         const histogram = d3.histogram()
-            .value(function (d) { console.log(d); return d.time; })   // I need to give the vector of value
+            .value(function (d) { return d.time; })   // I need to give the vector of value
             .domain(x.domain())  // then the domain of the graphic
             .thresholds(x.ticks(20)); // then the numbers of bins
 
@@ -225,7 +225,38 @@ function createHistogram(unfiltered_data) {
             .attr("transform", function (d) { return `translate(${x(d.x0)} , ${y(d.length)})` })
             .attr("width", function (d) { return x(d.x1) - x(d.x0) })
             .attr("height", function (d) { return height - y(d.length); })
-            .style("fill", "#69b3a2")
+            .style("fill", "rgb(49, 54, 149)")
+
+        // ----------------------------------------------- Brush -----------------------------------------------
+
+        let brush = d3.brushX()
+            .extent( [ [0,0], [width,height] ] )
+            .on("end", handleBrush);
+        SVG2.call(brush);
+
+        let brushExtent;
+
+        function handleBrush(e){
+            brushExtent = e.selection;
+                if (brushExtent != null) {
+                let min = Math.round(x.invert(brushExtent[0]));
+                let max = Math.round(x.invert(brushExtent[1]));
+
+                let minDate = new Date(min).toUTCString();
+                minDate = dateToFilterFormat(minDate);
+                let interval = Math.round((max - min)/ 60000);
+
+                let timeFilter = document.getElementById('date_min');
+                let timeInterval = document.getElementById('date_interval');
+
+                timeFilter.value = minDate;
+                timeInterval.value = interval;
+
+                let filterButton = document.getElementById('selectButton');
+                let click = new Event('click');
+                filterButton.dispatchEvent(click);
+                }
+        }
 
     };
 
