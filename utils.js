@@ -58,8 +58,8 @@ function get_last_comment_time(comments) {
         }
     }
     let max_time = new Date(max);
-    max_time = max_time.toString().split(' ')
-    let month = monthname_to_number(max_time[1]);
+    max_time = max_time.toUTCString().split(' ')
+    let month = monthname_to_number(max_time[2]);
     let time = max_time[4].split(':');
     let hour = time[0];
     let min = parseInt(time[1]) + 1;
@@ -71,8 +71,30 @@ function get_last_comment_time(comments) {
     }
     let aux = max_time[3] + "-"
         + month + "-"
-        + max_time[2] + "T"
+        + max_time[1] + "T"
         + hour + ":"
         + min;
     return aux
 }
+
+function dateToFilterFormat(date) {
+    let dateArray = date.split(' ');
+    let month = monthname_to_number(dateArray[2]);
+    let time = dateArray[4].split(':');
+    let hour = time[0];
+    let min = parseInt(time[1]) + 1;
+    min = min.toString();
+    if (min.length == 1) {
+        min = "0" + min;
+    } else if (min.length == 0) {
+        min = "00";
+    }
+    let aux = dateArray[3] + "-"
+        + month + "-"
+        + dateArray[1] + "T"
+        + hour + ":"
+        + min;
+    console.log(aux)
+    return aux
+}
+

@@ -2,7 +2,14 @@ body {
   background-color: #716f6f;
 }
 
-.container {
+.top{
+  display: grid;
+  grid-template-areas:
+  "instructions vis-2";
+}
+
+#container {
+  grid-area: instructions;
   width: auto;
   height: auto;
   background-color: rgb(42, 113, 174);
@@ -10,11 +17,19 @@ body {
   text-align: center;
 }
 
+#vis-1{
+  border-style: solid;
+}
+#vis-2{
+  grid-area: vis-2;
+  padding: 5%;
+}
+
 h2 {
   font-size: 40px;
   margin: 0px;
 }
-.container h3 {
+#container h3 {
   font-size: 20px;
   margin: 0px;
   padding: 1%;

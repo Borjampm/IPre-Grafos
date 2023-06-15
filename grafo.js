@@ -85,25 +85,59 @@ function max_level(comments) {
 // Parametros
 const SVG = d3.select("#vis-1").append("svg");
 SVG.append("g")
+
 let Tooltip = d3.select("#vis-1")
-.append("div")
-.style("opacity", 0)
-.attr("class", "tooltip")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+
+const ZOOM = d3.zoom()
+    .on("zoom", handleZoom);
+function handleZoom(e) {
+    SVG.select("g")
+        .attr("transform", e.transform);
+}
+const resetZOOM = d3.zoom()
+    .on("zoom", resetZoom);
+function resetZoom(e) {
+    SVG.select("g")
+        .attr("transform", "translate(0,0) scale(1)");
+}
+
+// Segunda vis
+// set the dimensions and margins of the graph
+const marginHist = { top: 10, right: 50, bottom: 30, left: 50 }
+const widthHist = 460 - marginHist.left - marginHist.right;
+const heightHist = 400 - marginHist.top - marginHist.bottom;
+
+// append the svg object to the body of the page
+const SVG2 = d3.select("#vis-2")
+    .append("svg")
+    .attr("width", widthHist + marginHist.left + marginHist.right)
+    .attr("height", heightHist + marginHist.top + marginHist.bottom)
+    .append("g")
+    .attr("transform", `translate(${marginHist.left},${marginHist.top})`);
+SVG2.append("g").attr("id", "axis-x");
+SVG2.append("g").attr("id", "axis-y");
 
 runCode(PRIMERANOTICIA);
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
+}
 
-  // ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
+// ---------------------------------------------- Filtrar datos en intervalos -----------------------------------
 async function dataInterval(unfiltered_data) {
     const SEGUNDOS = 5;
     const targetLength = SEGUNDOS * 1000;   // Tiempo que se quiere que dure la animacion
     const maxtimePerAnimation = 800;       // Tiempo máximo a utilizar
     const mintimePerAnimation = 10;       // Tiempo mínimo a utilizar
 
+
+    // TODO: Reinicar número de "tiempo"
+
     let data = data_processed(unfiltered_data);
+    let time_sleep = 0;
     if (data.comments.length == 0) {
         document.getElementById('status').innerText = 'No hay comentarios en esta noticia';
         data.comments = create_tree_comments(data.comments);
@@ -111,13 +145,12 @@ async function dataInterval(unfiltered_data) {
     } else {
         let timePublish = transform_min_date(data.date, data.time);
         let last_comment_time = get_last_comment_time(data.comments);
-        console.log(timePublish, last_comment_time);
         document.getElementById('status').innerText = 'Generando grafo... (No cambiar de noticia)';
 
         let comments = data.comments;
         comments.sort((a, b) => a.time - b.time);
 
-        let min = Date.parse(timePublish+":00.000+00:00");
+        let min = Date.parse(timePublish + ":00.000+00:00");
         let max = Date.parse(last_comment_time);
         let timePerNode = targetLength / (max - min);
 
@@ -126,15 +159,14 @@ async function dataInterval(unfiltered_data) {
         timePerNode = Math.max(timePerNode, mintimePerAnimation);
 
         let aux = [];
-        let time_sleep = 0;
         data.comments = aux;
         data.comments = create_tree_comments(data.comments);
         createGrafo(unfiltered_data, data, time_sleep);
+        createHistogram(unfiltered_data)
         for (let comment of comments) {
             if (aux.length == 0) {
                 // time_sleep = timePerNode * (comment.time - min);
                 time_sleep = timePerNode;
-                console.log(time_sleep)
                 aux.push(comment);
                 data.comments = aux;
                 data.comments = create_tree_comments(data.comments);
@@ -143,7 +175,6 @@ async function dataInterval(unfiltered_data) {
             } else {
                 // time_sleep = timePerNode * (comment.time - aux[aux.length - 1].time);
                 time_sleep = timePerNode;
-                console.log(time_sleep)
                 aux.push(comment);
                 data.comments = aux;
                 data.comments = create_tree_comments(data.comments);
@@ -152,7 +183,91 @@ async function dataInterval(unfiltered_data) {
             }
         }
         document.getElementById('status').innerText = 'Grafo generado';
+        SVG.call(ZOOM);
     }
+}
+
+// ---------------------------------------------- Crear Histograma -----------------------------------
+function createHistogram(unfiltered_data) {
+
+    let data = data_processed(unfiltered_data);
+    let timePublish = transform_min_date(data.date, data.time);
+    let last_comment_time = get_last_comment_time(data.comments);
+    let minDate = Date.parse(timePublish + ":00.000+00:00");
+    let maxDate = Date.parse(last_comment_time);
+
+
+    histograma(data.comments, minDate, maxDate)
+
+    function histograma(data, minDate, maxDate) {
+        SVG2.select("#brush").remove()
+
+        const x = d3.scaleLinear()
+            .domain([minDate, maxDate])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+            .range([0, widthHist]);
+
+        SVG2.select("#axis-x")
+            .attr("transform", `translate(0, ${heightHist})`)
+            .call(d3.axisBottom(x).tickValues([minDate, maxDate]).tickFormat(d => new Date(d).toUTCString()));
+
+        // set the parameters for the histogram
+        const histogram = d3.histogram()
+            .value(function (d) { return d.time; })   // I need to give the vector of value
+            .domain(x.domain())  // then the domain of the graphic
+            .thresholds(x.ticks(20)); // then the numbers of bins
+
+        // And apply this function to data to get the bins
+        const bins = histogram(data);
+
+        // Y axis: scale and draw:
+        const y = d3.scaleLinear()
+            .range([heightHist, 0]);
+        y.domain([0, d3.max(bins, function (d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
+
+        SVG2.select("#axis-y").call(d3.axisLeft(y));
+
+        // append the bar rectangles to the svg element
+        SVG2.selectAll("rect")
+            .data(bins)
+            .join("rect")
+            .attr("x", 1)
+            .attr("transform", function (d) { return `translate(${x(d.x0)} , ${y(d.length)})` })
+            .attr("width", function (d) { return x(d.x1) - x(d.x0) })
+            .attr("height", function (d) { return heightHist - y(d.length); })
+            .style("fill", "rgb(49, 54, 149)")
+
+        // ----------------------------------------------- Brush -----------------------------------------------
+
+        let brush = d3.brushX()
+            .extent([[0, 0], [widthHist, heightHist]])
+            .on("end", handleBrush);
+
+        SVG2.append("g").attr("id", "brush").call(brush);
+
+        let brushExtent;
+
+        function handleBrush(e) {
+            brushExtent = e.selection;
+            if (brushExtent != null) {
+                let min = Math.round(x.invert(brushExtent[0]));
+                let max = Math.round(x.invert(brushExtent[1]));
+
+                let minDate = new Date(min).toUTCString();
+                minDate = dateToFilterFormat(minDate);
+                let interval = Math.round((max - min) / 60000);
+
+                let timeFilter = document.getElementById('date_min');
+                let timeInterval = document.getElementById('date_interval');
+
+                timeFilter.value = minDate;
+                timeInterval.value = interval;
+
+                d3.select("#selectButton").on("click")();
+            }
+        }
+
+    };
+
 }
 
 // ---------------------------------------------- Crear Grafo -----------------------------------
@@ -163,19 +278,18 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const circleRadius = 15;
 
     // Tiempo que toma actualizar el grafo
-    const updateDurationTime = time_sleep/3
+    const updateDurationTime = time_sleep / 3
     // Tiempo que toma agregar nuevos elementos
     const enterDurationTime = time_sleep - updateDurationTime;
 
     const HEIGTH = 500;
-    const WIDTH = 1000;
+    const WIDTH = 2000;
 
     const margin = { top: 20, right: 30, bottom: 30, left: 90 };
     // Ajustar el ancho para que mínimo sea de 300 pixeles
-    const width = Math.max(WIDTH - margin.left - margin.right, 300);
-    const height = HEIGTH - margin.top - margin.bottom;
-    // const width = Math.max(WIDTH * tree_height - margin.left - margin.right, 300);
-    // const height = (HEIGTH * Math.sqrt(full_depth + 1)) - margin.top - margin.bottom;
+    const width = Math.max(circleRadius * tree_height * 2.1, WIDTH);
+    const height = Math.max(full_depth * 500, HEIGTH);
+    // const height = 1000;
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
         .domain([0, 0.5, 1]);
@@ -185,8 +299,10 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const treemap = d3.tree().size([width, height]);
     nodes = treemap(nodes);
     SVG
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", 100+height + margin.top + margin.bottom)
+        .attr("width", "100%")
+        .attr("height", "500")
+        .attr("viewBox", `-50 -50 ${width + 200} ${height + 100}`)
+        .attr("border", "1px solid black")
 
     const g = SVG.select("g")
         .attr("transform", `translate(${margin.top}, ${margin.left})`);
@@ -204,7 +320,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         .join(enter => {
             const dato_nuevo = enter.append("path")
                 .attr("class", "link")
-                .style("stroke", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)))
+                .style("stroke", d => colorScale((d.data.dislikes + d.data.likes) == 0 ? 0.5 : d.data.likes / (d.data.likes + d.data.dislikes)))
                 .attr("d", linkGenInitial)
 
             // Antes de aparecer uno nuevo, espero que se actualice lo anterior
@@ -235,40 +351,40 @@ function createGrafo(unfiltered_data, data, time_sleep) {
                 .attr("y_original", d => d.y);
 
             node_nuevo.append("circle")
-                .attr("class", d => {return d.parent?'comentario':'titulo'})
+                .attr("class", d => { return d.parent ? 'comentario' : 'titulo' })
                 .attr("r", 0)
                 .style("stroke", d => d.data.likes)
-                .style("fill", d => colorScale(d.data.likes/(d.data.likes + d.data.dislikes)));
+                .style("fill", d => colorScale((d.data.dislikes + d.data.likes) == 0 ? 0.5 : d.data.likes / (d.data.likes + d.data.dislikes)));
 
-                // Antes de aparecer uno nuevo, espero que se actualice lo anterior
-                node_nuevo.transition()
-                    .delay(updateDurationTime)
-                    .duration(enterDurationTime)
-                    .attr("transform", d => `translate(${d.x}, ${d.y})`);
+            // Antes de aparecer uno nuevo, espero que se actualice lo anterior
+            node_nuevo.transition()
+                .delay(updateDurationTime)
+                .duration(enterDurationTime)
+                .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
-                node_nuevo.select("circle")
-                    .transition()
-                    .delay(updateDurationTime)
-                    .duration(enterDurationTime)
-                    .attr("r", circleRadius);
+            node_nuevo.select("circle")
+                .transition()
+                .delay(updateDurationTime)
+                .duration(enterDurationTime)
+                .attr("r", circleRadius);
 
-                return node_nuevo
-            }, update => {
-                update.transition()
-                    .duration(updateDurationTime)
-                    .attr("transform", d => `translate(${d.x}, ${d.y})`);
+            return node_nuevo
+        }, update => {
+            update.transition()
+                .duration(updateDurationTime)
+                .attr("transform", d => `translate(${d.x}, ${d.y})`);
 
             return update
         }, exit => {
             exit.remove()
-    })
+        })
 
     node.raise();
 
     // ---------------------------------------------- Filtro Fechas ----------------------------------------------
     function filtrar_fecha(timeMin, timeMax, time) {
-        if (time < timeMin) { return 0.4 }
-        if (time > timeMax) { return 0.1 }
+        if (time < timeMin) { return 0.3 }
+        if (time > timeMax) { return 0.05 }
         return 1;
     }
 
@@ -282,13 +398,13 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     document.getElementById('date_min').setAttribute('max', last_comment_time);
 
     d3.select("#selectButton").on("click", function (d) {
+        console.log(1)
         let timeMin = document.getElementById('date_min').value + ":00.000+00:00";
         let timeInterval = document.getElementById('date_interval').value;
 
         timeMin = Date.parse(timeMin);
         timeInterval = timeInterval * 60 * 1000;
         timeMax = timeMin + timeInterval;
-        console.log(timeMin, timeMax)
 
         node.selectAll("circle")
             .attr("opacity", d => {
@@ -302,7 +418,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
 
 
     // ---------------------------------------------- Tooltip ----------------------------------------------
-        node.selectAll(".titulo")
+    node.select(".titulo")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
                 .style("display", "none")
@@ -319,14 +435,14 @@ function createGrafo(unfiltered_data, data, time_sleep) {
             Tooltip
                 .html(
                     "<h1>" + d.data.title + "</h1>" +
-                    "<h2>" + d.data.date + ' | ' + 'Redactado por ' + d.data.creator + "</h2>" +
-                    "<p>"  + d.data.body + "</p>"
+                    "<h2>" + d.data.date + ' | ' + 'Redactado por ' + d.data.creator + "</h2>"
+                    // + "<p>"  + d.data.body + "</p>"
                 )
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY + -10) + "px")
         })
 
-        node.selectAll(".comentario")
+    node.selectAll(".comentario")
         .on("mouseleave", function (event, d) {
             Tooltip.style("opacity", 0)
                 .style("display", "none")
@@ -355,14 +471,20 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         })
 
     // ---------------------------------------------- Zoom ----------------------------------------------
-    function handleZoom(e) {
-        d3.select("svg g")
-        .attr("transform", e.transform);
-    }
-    let zoom = d3.zoom()
-        .on("zoom", handleZoom);
+    SVG.select("g")
+        .attr("transform", "translate(0,0) scale(1)");
+    SVG.call(resetZOOM)
+        .call(ZOOM.transform, d3.zoomIdentity);
 
-    d3.select("svg")
-        .call(zoom);
+    d3.select("#resetZoomButton").on("click", function (d) {
+        SVG.call(resetZOOM)
+            .transition()
+            .duration(500)
+            .call(ZOOM.transform, d3.zoomIdentity);
+        SVG.call(ZOOM);
+    })
+
+
+
 
 }
