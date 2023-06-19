@@ -42,17 +42,17 @@ function data_processed(d) {
 }
 
 function create_tree_comments(comments) {
+    let nodes = {}
     let new_comments = [];
     for (let comment of comments) {
+        let p = comment_processed(comment)
         if (comment.level == 0) {
-            new_comments.push(comment_processed(comment));
+            nodes[p.id] = p
+            new_comments.push(p);
         } else {
-            for (father of new_comments) {
-                if (father.id == comment.parentId) {
-                    father.comments.push(comment_processed(comment));
-                    break;
-                }
-            }
+            parent = nodes[comment.parentId]
+            parent.comments.push(p)
+            nodes[p.id] = p
         }
     }
     return new_comments
