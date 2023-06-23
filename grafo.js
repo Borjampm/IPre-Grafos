@@ -134,7 +134,7 @@ async function dataInterval(unfiltered_data) {
     const mintimePerAnimation = 10;       // Tiempo mínimo a utilizar
 
 
-    // TODO: Reinicar número de "tiempo"
+    document.getElementById("date_interval").value = "";
 
     let data = data_processed(unfiltered_data);
     let time_sleep = 0;
@@ -152,6 +152,15 @@ async function dataInterval(unfiltered_data) {
 
         let min = Date.parse(timePublish + ":00.000+00:00");
         let max = Date.parse(last_comment_time);
+        console.log(min, max)
+        // 1547213340000, GMT: Friday, January 11, 2019 1:29:00 PM, Your time zone: Friday, January 11, 2019 10:29:00 AM GMT-03:00 DST
+        // 1547213340000, publicación noticia
+        // 1547399040000, GMT: Sunday, January 13, 2019 5:04:00 PM, Your time zone: Sunday, January 13, 2019 2:04:00 PM GMT-03:00 DST
+        // 1547388223000, ultimo comentario
+        // GMT: Sunday, January 13, 2019 2:03:43 PM, Your time zone: Sunday, January 13, 2019 11:03:43 AM GMT-03:00 DST
+
+
+
         let timePerNode = targetLength / (max - min);
 
         // Tiempo fijo y acotado a un rango de máxima.
@@ -168,6 +177,7 @@ async function dataInterval(unfiltered_data) {
                 // time_sleep = timePerNode * (comment.time - min);
                 time_sleep = timePerNode;
                 aux.push(comment);
+                console.log(aux)
                 data.comments = aux;
                 data.comments = create_tree_comments(data.comments);
                 await sleep(time_sleep);
