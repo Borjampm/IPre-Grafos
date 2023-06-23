@@ -168,11 +168,18 @@ async function dataInterval(unfiltered_data) {
         timePerNode = Math.max(timePerNode, mintimePerAnimation);
 
         let aux = [];
+        let i = 0;
         data.comments = aux;
         data.comments = create_tree_comments(data.comments);
         createGrafo(unfiltered_data, data, time_sleep);
         createHistogram(unfiltered_data)
         for (let comment of comments) {
+            // TODO: interrumpir
+            // if (XXXX){
+            //     break
+            // }
+            document.getElementById('status').innerText = `Generando grafo... ${i}/${comments.length} (No cambiar de noticia)`;
+            i+=1
             if (aux.length == 0) {
                 // time_sleep = timePerNode * (comment.time - min);
                 time_sleep = timePerNode;
@@ -228,12 +235,17 @@ function createHistogram(unfiltered_data) {
 
         // And apply this function to data to get the bins
         const bins = histogram(data);
+        const maxLength = d3.max(bins, function (d) { return d.length; })
 
         // Y axis: scale and draw:
         const y = d3.scaleLinear()
-            .range([heightHist, 0]);
-        y.domain([0, d3.max(bins, function (d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
+            .range([heightHist, 0])
+            .domain([0, maxLength]);   // d3.hist has to be called before the Y axis obviously
 
+
+        // TODO: Ajstar eje Y para solo enteros y una cantidad "razonable" en función de heightHist
+        // heightHist/5px ==> Máximo de textos que pueden haber
+        // [...Array(maxLength).keys()];
         SVG2.select("#axis-y").call(d3.axisLeft(y));
 
         // append the bar rectangles to the svg element
@@ -273,6 +285,9 @@ function createHistogram(unfiltered_data) {
                 timeInterval.value = interval;
 
                 d3.select("#selectButton").on("click")();
+            }
+            else {
+                // TODO: Limpiar filtro con min, max
             }
         }
 
