@@ -300,7 +300,10 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     // Constantes
     const tree_height = unfiltered_data.comments.length;
     const full_depth = max_level(unfiltered_data.comments);
-    const circleRadius = 15;
+    const maxCircleRadius = 60;
+    const maxLikes = d3.max(data.comments, d => d.likes+d.dislikes);
+    console.log()
+    const radiusScale = d3.scaleLinear().domain([0, maxLikes]).range([15, maxCircleRadius]);
 
     // Tiempo que toma actualizar el grafo
     const updateDurationTime = time_sleep / 3
@@ -310,9 +313,9 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const HEIGTH = 500;
     const WIDTH = 2000;
 
-    const margin = { top: 20, right: 30, bottom: 30, left: 90 };
+    const margin = { top: 100, right: 100, bottom: 100, left: 100 };
     // Ajustar el ancho para que mínimo sea de 300 pixeles
-    const width = Math.max(circleRadius * tree_height * 2.1, WIDTH);
+    const width = Math.max(maxCircleRadius * tree_height * 2.1, WIDTH);
     const height = Math.max(full_depth * 500, HEIGTH);
     // const height = 1000;
 
@@ -333,8 +336,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
         .attr("transform", `translate(${margin.top}, ${margin.left})`);
 
     let linkGenFinal = d3.linkVertical()
-        .source(d => [d.parent.x, d.parent.y + circleRadius])
-        .target(d => [d.x, d.y - circleRadius]);
+        .source(d => [d.parent.x, d.parent.y + radiusScale(d.data.likes + d.data.dislikes)])
+        .target(d => [d.x, d.y - radiusScale(d.data.likes + d.data.dislikes)]);
 
     let linkGenInitial = d3.linkVertical()
         .source(d => [d.parent.x, d.parent.y])
@@ -391,7 +394,8 @@ function createGrafo(unfiltered_data, data, time_sleep) {
                 .transition()
                 .delay(updateDurationTime)
                 .duration(enterDurationTime)
-                .attr("r", circleRadius);
+                .attr("r", d => d.parent ? radiusScale(d.data.likes + d.data.dislikes) : maxCircleRadius);
+                // .attr("r", d => radiusScale(d.data.likes + d.data.dislikes));
 
             return node_nuevo
         }, update => {
