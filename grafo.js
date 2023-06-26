@@ -274,20 +274,26 @@ function createHistogram(unfiltered_data) {
                 let min = Math.round(x.invert(brushExtent[0]));
                 let max = Math.round(x.invert(brushExtent[1]));
 
-                let minDate = new Date(min).toUTCString();
-                minDate = dateToFilterFormat(minDate);
+                let filterDate = new Date(min).toUTCString();
+                filterDate = dateToFilterFormat(filterDate);
                 let interval = Math.round((max - min) / 60000);
 
                 let timeFilter = document.getElementById('date_min');
                 let timeInterval = document.getElementById('date_interval');
 
-                timeFilter.value = minDate;
+                timeFilter.value = filterDate;
                 timeInterval.value = interval;
 
                 d3.select("#selectButton").on("click")();
             }
             else {
-                // TODO: Limpiar filtro con min, max
+                let timeFilter = document.getElementById('date_min');
+                let timeInterval = document.getElementById('date_interval');
+
+                timeFilter.value = minDate;
+                timeInterval.value = "";
+
+                d3.select("#selectButton").on("click")();
             }
         }
 
@@ -310,13 +316,13 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     // Tiempo que toma agregar nuevos elementos
     const enterDurationTime = time_sleep - updateDurationTime;
 
-    const HEIGTH = 500;
+    const HEIGTH = 700;
     const WIDTH = 2000;
 
     const margin = { top: 100, right: 100, bottom: 100, left: 100 };
     // Ajustar el ancho para que mínimo sea de 300 pixeles
     const width = Math.max(maxCircleRadius * tree_height * 2.1, WIDTH);
-    const height = Math.max(full_depth * 500, HEIGTH);
+    const height = Math.max(full_depth * 700, HEIGTH);
     // const height = 1000;
 
     const colorScale = d3.scaleDiverging(d => d3.interpolateRdYlBu(d))
@@ -329,7 +335,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     SVG
         .attr("width", "100%")
         .attr("height", "500")
-        .attr("viewBox", `-50 -50 ${width + 200} ${height + 100}`)
+        .attr("viewBox", `-100 -100 ${width + 200} ${height + 200}`)
         .attr("border", "1px solid black")
 
     const g = SVG.select("g")
