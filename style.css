@@ -1,26 +1,28 @@
 body {
-  background-color: #716f6f;
+  background-color: #8e8e8e;
 }
 
-.top{
+.top {
   display: grid;
   grid-template-areas:
-  "instructions vis-2";
+    "instructions vis-2";
 }
 
 #container {
   grid-area: instructions;
   width: auto;
   height: auto;
-  background-color: rgb(42, 113, 174);
+  background-color: rgba(42, 112, 174, 0);
   padding: 3%;
   text-align: center;
 }
 
-#vis-1{
+#vis-1 {
   border-style: solid;
+  border-radius: 5px;
 }
-#vis-2{
+
+#vis-2 {
   grid-area: vis-2;
   padding: 5%;
 }
@@ -29,13 +31,14 @@ h2 {
   font-size: 40px;
   margin: 0px;
 }
+
 #container h3 {
   font-size: 20px;
   margin: 0px;
   padding: 1%;
 }
 
-.wrapper{
+.wrapper {
   border-color: #000;
   border-width: 2px;
   border-style: solid;
@@ -43,12 +46,13 @@ h2 {
   display: inline-block;
   padding: 1%;
   margin: 2px;
+  border-radius: 5px;
 }
 
 .node circle {
   fill: #fff;
-  stroke: black;
-  stroke-width: 1px;
+  stroke: rgb(0, 0, 0);
+  stroke-width: 5px;
 }
 
 .node text {
@@ -61,16 +65,16 @@ h2 {
   stroke-width: 2px;
 }
 
-.filtro{
+.filtro {
   text-align: center;
   margin: 2px;
 }
 
-#selector{
+#selector {
   position: relative;
 }
 
-.tooltip{
+.tooltip {
   position: absolute;
   background-color: white;
   border: solid;
@@ -81,34 +85,36 @@ h2 {
   text-align: justify;
 }
 
-.tooltip h1{
+.tooltip h1 {
   font-size: large;
   margin: 0px;
 }
-.tooltip h2{
+
+.tooltip h2 {
   font-size: large;
   font-weight: normal;
   margin: 0px;
 }
 
-.status{
+.status {
   color: black;
   height: 25px;
 }
 
-#status{
+#status {
   position: relative;
   display: inline-block;
   font-size: large;
 }
 
-input{
+input {
   display: none;
 }
 
-#selectButton{
+#selectButton {
   display: none;
 }
-p{
+
+p {
   text-align: justify;
 }

@@ -307,8 +307,7 @@ function createGrafo(unfiltered_data, data, time_sleep) {
     const tree_height = unfiltered_data.comments.length;
     const full_depth = max_level(unfiltered_data.comments);
     const maxCircleRadius = 60;
-    const maxLikes = d3.max(data.comments, d => d.likes+d.dislikes);
-    console.log()
+    const maxLikes = d3.max(unfiltered_data.comments, d => d.likes+d.dislikes);
     const radiusScale = d3.scaleLinear().domain([0, maxLikes]).range([15, maxCircleRadius]);
 
     // Tiempo que toma actualizar el grafo
