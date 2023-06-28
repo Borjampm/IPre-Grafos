@@ -101,3 +101,14 @@ h2 {
   display: inline-block;
   font-size: large;
 }
+
+input{
+  display: none;
+}
+
+#selectButton{
+  display: none;
+}
+p{
+  text-align: justify;
+}

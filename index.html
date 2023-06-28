@@ -13,12 +13,22 @@
         <div id="container">
             <h2>IPre Grafos</h2>
             <div class="wrapper">
-                <h3>Filtro Fechas</h3>
+                <h3>Instrucciones</h3>
+                <p>
+                    - En la siguiente visualización, se muestra un árbol generado a partir de los comentarios de una noticia y un histograma con su distribución en el tiempo.
+                </p>
+                <p>
+                    - Para seleccionar una noticia, se debe hacer click en el botón "Selector Noticia" y luego elegir la noticia deseada.
+                </p>
+                <p>
+                    - El grafo mostrará los comentarios de la noticia, además, pasar el mouse sobre un nodo mostrará información adicional sobre este. También se puede hacer zoom y moverse para visualizar mejor los grafos más grandes.
+                </p>
+                <p>
+                    - Por otro lado, se puede seleccionar intervalos de tiempo usando el histograma, solo se debe seleccionar un area de este usando el brush. El grafo se actualizará para mostrar los comentarios dentro del intervalo, los comentarios que ocurrieron antes un poco traslucidos y los que no han ocurrido con aún mayor traslucidad.
+                </p>
                 <div class = "filtro">
-                    <label for="date_min"> Fecha Inicio </label>
                     <input type="datetime-local" id="date_min"
                     name="date_min">
-                    <label for="date_min"> Minutos Pasados </label>
                     <input type="number" id="date_interval"
                     name="date_interval">
                     <button id="selectButton">Filtrar</button>
